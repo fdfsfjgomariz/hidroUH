@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/plugins/Model_UH" >
+        <file>icon.png</file>
+    </qresource>
+</RCC>
