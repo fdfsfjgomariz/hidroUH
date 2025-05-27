@@ -12,8 +12,22 @@ To report failures or make suggestions, please contact [fjgomariz@um.es](mailto:
 - **Version**: 0.1
 - **Fecha**: 30 de Mayo de e2025
 
+## 1. Plugin installation and requirements
 
-## Plugin installation and requirements
+## 2. Help use
 
+### 2.1. Input data
+
+### 2.2. Results
+
+## 3. Methods
+
+### 3.1. Loss
+
+### 3.2. Transform
+
+### 3.3. Routing
+
+##References
 
 
