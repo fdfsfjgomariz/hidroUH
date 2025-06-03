@@ -1,6 +1,6 @@
 # hidroUH
 
-Plugin de QGIS que permite estimar el caudal superficial generado por un evento de precipitación a nivel de cuenca (de forma agregada o mediante la esquematización de la cuenca en subcuencas). Para ello, utiliza el método del número del curva (CN) del Soil Conservation Service (SCS) para aproximar la fase de pérdidas (separación entre la Precipitación Neta (Pn) y la precipitación que no genera escorrentía superficial), el hidrograma unitario del SCS para conversión lluvia-escorrentía y el méteodo de Múskingum para la translación en cauce.
+Este plugin de QGIS permite estimar el caudal superficial generado por un evento de precipitación a nivel de cuenca (de forma agregada o mediante la esquematización de la cuenca en subcuencas). Para ello, utiliza el método del número del curva (CN) del Soil Conservation Service (SCS) para aproximar la fase de pérdidas (separación entre la Precipitación Neta (Pn) y la precipitación que no genera escorrentía superficial), el hidrograma unitario del SCS para conversión lluvia-escorrentía y el méteodo de Múskingum para la translación en cauce.
 
 To report failures or make suggestions, please contact [fjgomariz@um.es](mailto:fjgomariz@um.es  "fjgomariz@um.es ") 
 
@@ -14,19 +14,48 @@ To report failures or make suggestions, please contact [fjgomariz@um.es](mailto:
 
 ## 1. Plugin installation and requirements
 
-Para instalar el plugin se debe descargar en formato zip desde este repositorio, tras lo cuál se instalará en QGIS a través del menú *Plugin -> Manage and Install Plugin ...* Una vez dentro de la ventana de gestión de plugin, se instalará con la opción *Install from ZIP*.
+Este plugin ha sido desarrollado utilizando [QGIS](https://www.qgis.org/en/site/forusers/download.html) 3.40 LTR.
+###Instalación
+
+Para instalar el plugin se debe descargar en formato zip desde [https://github.com/fdfsfjgomariz/hidroUH/](https://github.com/fdfsfjgomariz/hidroUH/):
+
+1. En QGIS selecciona *Plugin -> Manage and Install Plugin ...*
+2. Dentro de la ventana de gestión de plugin, se puede instalar el archivo descargado en formato zip desde e*Install from ZIP*.
 
 Tras su instalación se puede acceder a través del menú Plugin (Fig.1) o con el botón de la barra de herramientas <img src="img/icon.png" width="15px" height="auto">
 
 <img src="img/access.png" width="400px" height="auto">
 
-
 ###Requeriments
 
+El plugin ha sido desarrollado con Python 3.12. y requiere los siguientes paquetes **NOTA: CHECK EN UNA INSTALACICON LIMPIA LOS QUE YA ESTAN**:
+
+- numpy
+- pandas
+- matplotlib
+- math
+- tempfile
+- sys
+- scipy
+
+
+Después de la instalación del plugin, en caso de ser necesario, pueden instalarse desde la consola Python mediante ```pip```. Por ejemplo:
+
+    
+```shell script
+python3 -m pip install numpy pandas matplotlib math tempfile scypy
+```
 
 ## 2. Using plugin
 
-La interfaz de usuario del plugin se divide en tres secciones: Model, donde se introducen los datos de entrada requeridos para su ejecución, Results, que muestra un resumen de los resultados (los resultados de detalle se generarán en el directorio de salida del plugin), y Help, con una manual de ayuda. 
+La interfaz de usuario del plugin se divide en tres secciones: Model, donde se introducen los datos de entrada requeridos para su ejecución, Results, que muestra un resumen de los resultados (los resultados de detalle se generarán en el directorio de salida del plugin), y Help, con una manual de ayuda.
+
+A sample dataset is available to test this plugin in archive [DataBasinParriel.zip](https://github.com/fdfsfjgomariz/hidroUH/blob/main/test_datasets/DataBasinParriel.zip). El archivo contiene la siguiente información:
+
+- *basin.shp*: Layer en formato shapefile de la cuenca de la Rambla de Parriel, situada en el sureste de la Peníinsula Ibérica.
+- *precip.csv* y *ObservedFlow.csv*: Archivos con los datos tabulares horarios de precipitación y caudal observado en la desembocadura de la rambla.
+
+En los siguientes subapartados se detalla la estructura de estos archivos.
 
 ### 2.1. Model (input data)
 
@@ -37,8 +66,9 @@ En la primera pestaña (Fig.1) se deben introducir los datos de entrada (el <spa
 Los archivos de entrada con datos en forma de capa vectorial y/o serie temporal son:
 
 - **Subbasins**: Layer tipo polígono cargado previamente en QGIS de la cuenca (o subcuencas). En esta capa se incluirán os parámetros en forma de columna, representando las características de éstas. Los elementos tipo *ComboBox* (listas deplegables) de la zona *Parameters* representan el nombre de las columnas que se introducirán como parámetros del modelo.
-- **Precipitation (mm/h)**: Archivo tipo csv con la precipitación de entrada. El formato que debe tener es: Una primera columna almacenando la fecha y hora, y tantas columnas como subcuencas se quieran incluir en el modelo, incluyendo como nombre de ésta el código de la cuenca o subcuenca. El separador de columnas será *comma* y el símbolo decimal *point*. Con el objetivo de simplificar el objetivo, en este archivo se incluirá un hietograma asociado a cada subcuenca, que puede ser obtenido a partir de la estación meteorológica más  cercana a ella, como una serie promedio obtenida de forma externa a partir de varios pluviógrafos o como una serie promedio obtenida a partir de datos en malla.
-- **Flow (m<sup>3</sup>/s by hour)**: Archivo en formato csv (con las mismas especificaciones del anterior) que almacena el caudal observado en la desembocadura de la cuenca. Si se incluye este archivo el plugin estimará la bondad de ajuste entre la simulación y el caudal observado y, en caso de activar el check box **Optimize?** realizar su calibración.
+- **Time interval**: Intervalo de tiempo para el que generará la simulación (establecido en minutos). Debe coincidir con el paso de tiempo de los archivos de entrada y su rango operativo puede estar comprendido entre los 5 minutos y las 12 horas (720 minutos).  Por defecto se realizarán simulaciones con un paso de tiempo de 1 h (60 min.).
+- **Precipitation (mm/h)**: Archivo tipo csv con la precipitación de entrada. El formato que debe tener, mostrado en la siguiente figura, es: Una primera columna almacenando la fecha y hora, y tantas columnas como subcuencas se quieran incluir en el modelo, incluyendo como nombre de ésta el código de la cuenca o subcuenca. El separador de columnas será *comma* y el símbolo decimal *point*. Con el objetivo de simplificar el objetivo, en este archivo se incluirá un hietograma asociado a cada subcuenca, que puede ser obtenido a partir de la estación meteorológica más  cercana a ella, como una serie promedio obtenida de forma externa a partir de varios pluviógrafos o como una serie promedio obtenida a partir de datos en malla.
+- **Flow (m<sup>3</sup>/s by hour)**: Archivo en formato csv (con las mismas especificaciones del anterior), con especificaciones similares al anterior, que almacena el caudal observado en la desembocadura de la cuenca. Si se incluye este archivo el plugin estimará la bondad de ajuste entre la simulación y el caudal observado y, en caso de activar el check box **Optimize?** realizar su calibración.
 
 En cuanto a los parámetros requeridos, se incluyen los siguientes:
 
@@ -69,25 +99,21 @@ En este directorio se almacenan los resultados de detalle (gráficos y datos tab
 
 - **Fase de pérdidas: método del número de curva del SCS**: Se generará un gráfico por cada subcuenca representando el hietograma asociado al evento y su división en tres partes: (i) precipitación efectiva o neta, que generaría escorrentía superficial (Pe), en color azul, y las pérdidas o infiltración, divididas en  (ii) infiltración inicial antes de producirse escorrentía (abstracción inicial - Ia) en color rojo y (iii) la infiltración acumulada (infiltración que se produce al tiempo que se produce - Fa) en color verde. Además incluye un cuadro resumen para la subcuenca con los totales acumulados para el evento, incluyendo la precipitación total (P). En la siguiente figura se muestra un ejemplo.
 
-<img src="img/CNloss.png" width="400px" height="auto">
+<img src="img/CNloss.png" width="500px" height="auto">
 
 - **Fase de transformación de lluvia-escorrentía: método del hidrograma unitario del SCS**: En este gráfico se resume para cada subcuenca el hidrograma de caudal asociado a su salida. En el caso de simulaciones para una sola cuenca, o para la subcuenca de salida en el caso de simulaciones con más de una subcuenca, si se ha incluido un archivo de caudal observado, se incluyen los hidrogramas de caudal simulado (en color azul) y observado (en color negro); en la siguiente figura se incluye un ejemplo.
 
-<img src="img/QsimUH.png" width="400px" height="auto">
+<img src="img/QsimUH.png" width="600px" height="auto">
 
 Añadido a estos gráficos, se generan dos archivos tabulares que almacenan los resultados numéricos:
 
-- **model_results.csv**: asdg
+- **model_resum.csv**: Archivo en formato csv con la misma configuración (separadores de columnas, formatos, etc.)de los archivos de entrada. Incluye, el resumen para todo el evento en cada subcuenca de la precipitación total acumulada (*P*), la infiltración inicial (*Ia*) y acumulada (*F*), la precipitación efectiva (*Pe*), y el caudal pico del evento simulado (*PeakSim*). En la siguiente tabla se muestra un ejemplo para la subcuenca que respresenta la salida; en este caso además, al incluirse un archivo de caudal observado, se incluye la siguiente información (encabezados resaltados en verde):  Caudal pico del caudal observado (*PeakObs*), y los estadísticos de bondad de ajuste del índice de eficiencia de *METE REFERENCIA DE NASH* (*nse*), la raíz cuadrada del error cuadrático medio (*rmse*) y el porcentaje de sesgo (*pbias*).
 
+<img src="img/tbmodelresum.png" width="600px" height="auto">
 
+- **model_results.csv**: Archivo en formato csv con la misma configuración (separadores de columnas, formatos, etc.)de los archivos de entrada. Incluye, para cada paso de tiempo, el resultado de la simulación en cada subcuenca, incluyendo la separación de la precipitación en los diferentes componentes y el caudal resultante. En el caso de la subcuenca que representa la salida de la cuenca, el caudal será el asociado a toda el área estudiada. En la siguiente figura se incluye un ejemplo.
 
-<img src="img/form1.png" width="500px" height="auto">
-
-
-- **model_resum.csv**: sadg
-
-<img src="img/form1.png" width="500px" height="auto">
-
+<img src="img/tbmodelresults.png" width="500px" height="auto">
 
 ## 3. Methods
 
@@ -100,8 +126,25 @@ Implementar este tipo de modelos permite una aproximación semidistribuida en el
 
 ### 3.1. Loss
 
-El *número de curva* del **METE REFERENCIA** es un método simple que permite separar de un hietograma de precipitación aquella parte que generará escorrentía directa, denominada precipitación eficaz o neta (Pe). Ha sido muy utilizado para estudiar episodios lluviosos en cuencas donde no se dispone de medidas de infiltración. Se basa en un parámetro denominado *Infiltración Potencial Máxima (S)* que se calcula con la ecuación $ S = \frac{25400}{NC} - 254$
+El *número de curva* del U.S. Soil Conservation Service (SCS, 1985) es un método simple que permite separar de un hietograma de precipitación aquella parte que generará escorrentía directa, denominada precipitación eficaz o neta (Pe). Ha sido muy utilizado para estudiar episodios lluviosos en cuencas donde no se dispone de medidas de infiltración, obteniendo resultados que suelen ajustarse bien a los datos observados. Parte de las siguientes asunciones: El suelo retiene al principio una cierta cantidad de precipitación. Tras ello, las abstracciones van disminuyendo progresivamente; para ello, se parte del concepto de umbral de escorrentía *P0* (o abstracción inicial *Ia*) que depende de la textura del suelo, el uso del suelo y y su manejo, normalmente dependiente de la pendiente. Este valor depende a su vez del parámetro adimensional número de curva (NC), que varía entre 0 (no existe infiltración) y 100 (infiltración máxima).
 
+Para realizar la separación, se utiliza el parámetro denominado *Infiltración Potencial Máxima (S)*, abstracción máxima posible (suele asumirse que *P0* es el 20% de *S*). Puede estimarse a partir de la siguiente ecuación:
+
+$$
+S=\frac{25400}{NC} - 254
+$$
+
+NC puede obtenerse a partir de las tablas del SCS (1985), para lo cuál es necesario (a) disponer de valores de textura, lo que permite (b) obtener los grupos hidrológicos del suelo, y (c) disponer de información de coberturas de usos del suelo y pendientes. Como alternativa, existen diferentes aproximaciones basadas en coberturas del uso del suelo o aproximaciones obtenidas espacialmente distribuidas. Por ejemplo, en el caso de España, la [**Norma 5.2-IC de Drenaje Superficial de la Instrucción de Carreteras (2016)**](https://cdn.mitma.gob.es/portal-web-drupal/carreteras/52ic_fom2982016_err_fom1852017_res180326_consolidado.pdf) tabula para Corine Land Cover diferentes valores de NC asociados a diferentes tipos de cobertura de usos del suelo, y el [**Ministerio para la Transición Ecológica y el Reto Demográfico**](https://www.miteco.gob.es/es/agua/temas/gestion-de-los-riesgos-de-inundacion/snczi/mapa-de-caudales-maximos.html) ha aproximado para toda España valores de *P0* a partir de los que se pueden derivar valores de NC.
+
+Los NC aproximados a partir de las tablas son valores para condiciones de humedad antecedente no conocida o con un valor de humedad intermedio. Si se conocen las condiciones antecedentes de humedad debe corregirse utilizando las siguientes ecuaciones, la primera de ellas si las condiciones de los días precedentes fueron secas (**METE REFERENCIA**) y la segunda si las condiciones precedentes fueron húmedas **METE REFERENCIA**:
+
+$$
+NC=\frac{4.2 \cdot NCt}{10 - 0.058 \cdot NCt}
+$$
+
+$$
+NC=\frac{23 \cdot NCt}{10 + 0.13 \cdot NCt}
+$$
 
 
 
