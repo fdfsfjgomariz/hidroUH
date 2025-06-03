@@ -140,14 +140,14 @@ NC puede obtenerse a partir de las tablas del SCS (1985), para lo cuál es neces
 Los NC aproximados a partir de las tablas son valores para condiciones de humedad antecedente no conocida o con un valor de humedad intermedio. Si se conocen las condiciones antecedentes de humedad debe corregirse utilizando las siguientes ecuaciones, la primera de ellas si las condiciones de los días precedentes fueron secas (**METE REFERENCIA**) y la segunda si las condiciones precedentes fueron húmedas **METE REFERENCIA**:
 
 $$
-NC=\frac{4.2 \cdot NCt}{10 - 0.058 \cdot NCt}
+NC=\frac{4.2 \cdot NCt}{10 - 0.058 \cdot NC_t}
 $$
 
 $$
-NC=\frac{23 \cdot NCt}{10 + 0.13 \cdot NCt}
+NC=\frac{23 \cdot NCt}{10 + 0.13 \cdot NC_t}
 $$
 
-
+siendo $NC_t$ el valor obtenido para condiciones de humedad no conocida o con un valor intermedio.
 
 
 
