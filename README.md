@@ -15,6 +15,7 @@ To report failures or make suggestions, please contact [fjgomariz@um.es](mailto:
 ## 1. Plugin installation and requirements
 
 Este plugin ha sido desarrollado utilizando [QGIS](https://www.qgis.org/en/site/forusers/download.html) 3.40 LTR.
+
 ###Instalación
 
 Para instalar el plugin se debe descargar en formato zip desde [https://github.com/fdfsfjgomariz/hidroUH/](https://github.com/fdfsfjgomariz/hidroUH/):
@@ -50,7 +51,7 @@ python3 -m pip install numpy pandas matplotlib math tempfile scypy
 
 La interfaz de usuario del plugin se divide en tres secciones: Model, donde se introducen los datos de entrada requeridos para su ejecución, Results, que muestra un resumen de los resultados (los resultados de detalle se generarán en el directorio de salida del plugin), y Help, con una manual de ayuda.
 
-A sample dataset is available to test this plugin in archive [DataBasinParriel.zip](https://github.com/fdfsfjgomariz/hidroUH/blob/main/test_datasets/DataBasinParriel.zip). El archivo contiene la siguiente información:
+A sample dataset is available to test this plugin in archive [DataBasinParriel.zip](https://github.com/fdfsfjgomariz/hidroUH/test_datasets/DataBasinParriel.zip). El archivo contiene la siguiente información:
 
 - *basin.shp*: Layer en formato shapefile de la cuenca de la Rambla de Parriel, situada en el sureste de la Peníinsula Ibérica.
 - *precip.csv* y *ObservedFlow.csv*: Archivos con los datos tabulares horarios de precipitación y caudal observado en la desembocadura de la rambla.
