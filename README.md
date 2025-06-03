@@ -119,7 +119,7 @@ Añadido a estos gráficos, se generan dos archivos tabulares que almacenan los 
 
 Implementar este tipo de modelos permite una aproximación semidistribuida en el espacio a partir de los recintos, aproximando mejor la heterogeneidad espacial de aspectos como los usos del suelo, tipos de suelo o el comportamiento del propio evento a lo largo del tiempo y el espacio, pero utilizando ecuaciones para modelos simples espacialmente agregados. En la siguiente figura se incluye a modo de ejemplo el esquema de cuenca asociada a los archivos de ejemplo [DataBasinParriel.zip](https://github.com/fdfsfjgomariz/hidroUH/test_datasets/DataBasinParriel.zip), correspondiente a la Rambla de Parriel, ubicada en la Región de Murcia, al sureste de España. El esquema de cuenca se define a partir de tres subcuencas o recintos y el cauce para el que se estimará la translación del hidrograma procedente de las dos subcuencas de cabecera a la cuenca *C3*, que es el recinto al que se le asocia la salida de la cuenca.
 
-<img src="img/Parriel.png" width="500px" height="auto">
+<img src="img/Parriel.png" width="800px" height="auto">
 
 ### 3.1. Loss
 
@@ -167,7 +167,7 @@ $$
 
 A partir de las ecuaciones anteriores pueden aproximarse los diferentes componentes de forma temporalmente distribuida; en la siguiente figura se reprenta el esquema conceptual del proceso de cálculo para cada paso de tiempo *t*:
 
-<img src="img/flowNC.png" width="300px" height="auto">
+<img src="img/flowNC.png" width="500px" height="auto">
 
 ### 3.2. Transform
 
