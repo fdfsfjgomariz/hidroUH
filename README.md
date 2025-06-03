@@ -149,6 +149,34 @@ $$
 
 siendo $NC_t$ el valor obtenido para condiciones de humedad no conocida o con un valor intermedio.
 
+Obtenida *S*, el resto de los componentes pueden aproximarse a partir de las siguientes ecuaciones:
+
+- *Ia*: Infiltración inicial antes de que se produzca escorrentía directa:
+
+$$
+Ia=0,2 \cdot S
+$$
+
+- *Pe*: Precipitación efectiva, parte de la precipitación que genera escorrentía directa:
+
+$$
+Pe=\frac{(P- 0,2 \cdot S)^2}{P + 0.8 \cdot S}
+$$
+
+- *Fa*: Infiltración acumulada o infiltración que se produce al mismo tiempo que la escorrentía: 
+
+$$
+Fa = P - Pe - Ia
+$$
+
+A partir de las ecuaciones anteriores pueden aproximarse los diferentes componentes de forma temporalmente distribuida; en la siguiente figura se reprenta el esquema conceptual del proceso de cálculo para cada paso de tiempo *t*:
+
+<img src="img/flowNC.png" width="500px" height="auto">
+
+
+
+
+
 
 
 ### 3.2. Transform
