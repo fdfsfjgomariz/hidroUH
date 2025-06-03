@@ -171,7 +171,7 @@ $$
 
 A partir de las ecuaciones anteriores pueden aproximarse los diferentes componentes de forma temporalmente distribuida; en la siguiente figura se reprenta el esquema conceptual del proceso de cálculo para cada paso de tiempo *t*:
 
-<img src="img/flowNC.png" width="500px" height="auto">
+<img src="img/flowNC.png" width="300px" height="auto">
 
 
 
