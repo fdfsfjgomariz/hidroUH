@@ -16,7 +16,7 @@ To report failures or make suggestions, please contact [fjgomariz@um.es](mailto:
 
 Este plugin ha sido desarrollado utilizando [QGIS](https://www.qgis.org/en/site/forusers/download.html) 3.40 LTR.
 
-###Instalación
+### Instalación
 
 Para instalar el plugin se debe descargar en formato zip desde [https://github.com/fdfsfjgomariz/hidroUH/](https://github.com/fdfsfjgomariz/hidroUH/):
 
@@ -27,7 +27,7 @@ Tras su instalación se puede acceder a través del menú Plugin (Fig.1) o con e
 
 <img src="img/access.png" width="400px" height="auto">
 
-###Requeriments
+### Requeriments
 
 El plugin ha sido desarrollado con Python 3.12. y requiere los siguientes paquetes:
 
