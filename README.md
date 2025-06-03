@@ -167,7 +167,7 @@ $$
 
 A partir de las ecuaciones anteriores pueden aproximarse los diferentes componentes de forma temporalmente distribuida; en la siguiente figura se reprenta el esquema conceptual del proceso de cálculo para cada paso de tiempo *t*:
 
-<img src="img/flowNC.png" width="500px" height="auto">
+<img src="img/flowNC.png" width="400px" height="auto">
 
 ### 3.2. Transform
 
@@ -218,19 +218,19 @@ En caso de disponer de datos de caudal observado (*Qobs*) en la salida de la cue
 - Nash & Sutcliffe (1970) efficiency index ***nse***, is a dimensionless index with a similar interpretation to $R^2$, but more robust to the problems of the latter, such as sensitivity to extreme biases and insensitivity to constant biases (additive or multiplicative). Puede estimarse a partir de la siguiente ecuación:
 
 $$
-	nse = 1 - \frac{\sum^{n}_{i=1}\left(Qobs_i - Qsim_i\right)^2}{\sum_{i=1}^{n} \left(Qobs_i - \overline{Qobs}\right)^2}
+nse = 1 - \frac{\sum^{n}_{i=1}\left(Qobs_i - Qsim_i\right)^2}{\sum_{i=1}^{n} \left(Qobs_i - \overline{Qobs}\right)^2}
 $$
 
 - Root mean square error  ***rmse***. Is a measure of absolute error (in the same units as the variable under consideration) that measures the difference between the values predicted by a model and the actual observed values; it ranges from 0 (perfect fit) to $+ \infty$ (high error). Puede estimarse a partir de la siguiente ecuación:
 
 $$
-	rmse = \sqrt{\frac{\sum^{n}_{i=1}\left(Qobs_i - Qsim_i\right)^2}{n}}
+rmse = \sqrt{\frac{\sum^{n}_{i=1}\left(Qobs_i - Qsim_i\right)^2}{n}}
 $$
 
 - Percent bias ***pbias***, measures the average tendency of the simulated data to be larger or smaller than their reference values. Positive values indicate underestimation and negative values indicate overestimation. Puede definirse como:
 
 $$
-	Pbias = \frac{\sum_{i=1}^{n} \left(y_{obs,i} - y_{sim,i}\right)}{\sum_{i=1}^{n} y_{obs,i}} \cdot 100
+Pbias = \frac{\sum_{i=1}^{n} \left(y_{obs,i} - y_{sim,i}\right)}{\sum_{i=1}^{n} y_{obs,i}} \cdot 100
 $$
 
 En lo referente a la calibración del modelo, en caso de seleccionar esta opción y disponer de datos de caudal observado, el plugin incorpora la optimización a partir del algoritmo disponible en ScyPy [L-BFGS-B](https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html) (Zhu et al., 1997), a quasi-Newton method for solving large nonlinear optimization problems with bounds on the variables.
