@@ -32,7 +32,7 @@ This plugin has been developed using [QGIS](https://www.qgis.org/en/site/foruser
 
  After installation, the plugin can be accessed via the *Plugins* menu (Fig. 1) or the toolbar button  <img src="img/icon.png" width="15px" height="auto">
 
-<img src="img/access.png" width="500px" height="auto">
+<div align="center"><img src="img/access.png" width="500px" height="auto"></div>
 
 ### Requeriments
 
@@ -115,18 +115,18 @@ This folder stores the detailed results (plots and tabular data). The produced p
 
 - **Rainfall-runoff transformation phase: SCS unit hydrograph method** (see [sección 3.2.](#3.2.-Transform)): This graph summarises the flow hydrograph associated with the outflow of each sub-basin. For simulations involving a single basin or an output sub-basin comprising multiple sub-basins, if an observed flow file is included alongside the simulated flow (in blue), the observed flow (in black) will also be added. An example is provided in the figure below.
 
-<img src="img/QsimUH.png" width="600px" height="auto">
+<div align="center"><img src="img/QsimUH.png" width="600px" height="auto"></div>
 
 Besides, the outcome values are gathered in two tabular files.:
 
 - **model_resum.csv**:  CSV file with the same format as the input files (column separators, formats, etc.). It includes a summary of the total accumulated precipitation (*P*), initial infiltration (*Ia*) and accumulated infiltration (*F*), effective precipitation (*Pe*) and peak flow of the simulated event (*PeakSim*) for each sub-basin of the event. The following table shows an example of the output for a sub-basin. In this case, when an observed flow file is included in the simulation, the following additional information is added (headings highlighted in green): Peak flow of the observed flow (PeakObs), and the goodness-of-fit statistics *nse*, *rmse* and *pbias*. 
 
-<img src="img/tbmodelresum.png" width="600px" height="auto">
+<img src="img/tbmodelresum.png" width="600px" height="auto" style="border: 2px solid grey">
 
 - **model_results.csv**: CSV file with the same format as the input files (column separators, formats, etc.). For each time step, it includes the simulation results for each sub-basin, including the separation of precipitation into its different components and the resulting flow. For the sub-basin representing the basin outlet, the flow will correspond to that of the entire studied area. An example is provided in the figure below.
  
 
-<img src="img/tbmodelresults.png" width="500px" height="auto">
+<img src="img/tbmodelresults.png" width="500px" height="auto" style="border: 2px solid grey">
 
 ## 3. Methods
 
