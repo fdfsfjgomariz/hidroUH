@@ -68,7 +68,7 @@ There are three tabs on the plugin dialog:
 
 To start the process, enter the input data using the first tab as in Fig. 1. Please note that fields marked with an asterisk (<span style=" color:#ff0000;"> *</span>) are required to run the model.
 
-<img src="img/form1.png" width="700px" height="auto">
+<div align="center"><img src="img/form1.png" width="700px" height="auto"></div>
 
 - **Subbasins** (<span style=" color:#ff0000;">required</span>): Select on the drop-down menu the polygon shapefile layer with the basin (or subbasins) shape. It must have been previously loaded as a layer in QGIS canvas. 
 
@@ -111,7 +111,8 @@ This folder stores the detailed results (plots and tabular data). The produced p
 
 - **Losses phase: SCS curve number method** (see [sección 3.1.](#3.1.-Loss)): It is generated one graph for each sub-basin, representing the histogram associated with the event and divided into three parts: (i) Effective or net precipitation (*Pe*), which generates surface or direct runoff (blue). (ii) Initial infiltration before runoff occurs (initial abstraction – *Ia*)(red) . (iii) Accumulated infiltration (infiltration occurring at the time it occurs – *Fa*)(green). A summary table for the sub-basin is also included, showing the cumulative totals for the event, including total precipitation (*P*). An example is shown in the figure below.
 
-<img src="img/CNloss.png" width="600px" height="auto">
+<div align="center"><img src="img/CNloss.png" width="600px" height="auto"></div>
+
 
 - **Rainfall-runoff transformation phase: SCS unit hydrograph method** (see [sección 3.2.](#3.2.-Transform)): This graph summarises the flow hydrograph associated with the outflow of each sub-basin. For simulations involving a single basin or an output sub-basin comprising multiple sub-basins, if an observed flow file is included alongside the simulated flow (in blue), the observed flow (in black) will also be added. An example is provided in the figure below.
 
@@ -121,12 +122,13 @@ Besides, the outcome values are gathered in two tabular files.:
 
 - **model_resum.csv**:  CSV file with the same format as the input files (column separators, formats, etc.). It includes a summary of the total accumulated precipitation (*P*), initial infiltration (*Ia*) and accumulated infiltration (*F*), effective precipitation (*Pe*) and peak flow of the simulated event (*PeakSim*) for each sub-basin of the event. The following table shows an example of the output for a sub-basin. In this case, when an observed flow file is included in the simulation, the following additional information is added (headings highlighted in green): Peak flow of the observed flow (PeakObs), and the goodness-of-fit statistics *nse*, *rmse* and *pbias*. 
 
-<img src="img/tbmodelresum.png" width="600px" height="auto" style="border: 2px solid grey">
+
+<div align="center"><img src="img/tbmodelresum.png" width="600px" height="auto" style="border: 2px solid grey"></div>
 
 - **model_results.csv**: CSV file with the same format as the input files (column separators, formats, etc.). For each time step, it includes the simulation results for each sub-basin, including the separation of precipitation into its different components and the resulting flow. For the sub-basin representing the basin outlet, the flow will correspond to that of the entire studied area. An example is provided in the figure below.
  
 
-<img src="img/tbmodelresults.png" width="500px" height="auto" style="border: 2px solid grey">
+<div align="center"><img src="img/tbmodelresults.png" width="500px" height="auto" style="border: 2px solid grey"></div>
 
 ## 3. Methods
 
@@ -136,7 +138,9 @@ Implementing these models provides a semi-distributed spatial approximation, whi
 
 The following figure shows the watershed scheme associated with the example files  [DataBasinParriel.zip](https://github.com/fdfsfjgomariz/hidroUH/test_datasets/DataBasinParriel.zip), which correspond to the Rambla de Parriel in the Region of Murcia in south-eastern Spain. The basin scheme is based on three sub-basins and their channels. The translation of the hydrograph from the two headwater sub-basins to the catchment area *C3*, which is the catchment area associated with the basin outlet, will be estimated.
 
-<img src="img/Parriel.png" width="500px" height="auto">
+
+<div align="center"><img src="img/Parriel.png" width="500px" height="auto"></div>
+
 
 ### 3.1. Loss
 
@@ -189,9 +193,10 @@ $$
 Fa = P - Pe - Ia
 $$
 
-The different components can be approximated in a temporally distributed manner using the above equations. The following figure represents the conceptual scheme of the calculation process for each time step t:
+The different components can be approximated in a temporally distributed manner using the above equations. The following figure represents the conceptual scheme of the calculation process for each time step *t*:
 
-<img src="img/flowNC.png" width="400px" height="auto">
+<div align="center"><img src="img/flowNC.png" width="400px" height="auto"></div>
+
 
 ### 3.2. Transform
 
