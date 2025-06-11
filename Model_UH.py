@@ -39,11 +39,9 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
-from matplotlib.figure import Figure
-
 #PACOGOM para la tabla
-from PyQt5.QtWidgets import QTableWidgetItem
+#from PyQt5.QtWidgets import QTableWidgetItem
+from qgis.PyQt.QtWidgets import QTableWidgetItem
 
 
 #PACOGOM
@@ -294,39 +292,8 @@ class ModelUH:
         #tabla.setStyleSheet("QHeaderView::section{ background-color: lightblue }")
         
     #PACOGOM CREAR GRAFICO HIDROGRAMA###################
-    #recuerda que primero he cargado QWebEngineView
     
-    def generar_grafico(self,tabla):
-        # Datos desde el DataFrame
-        data_json = tabla.to_json(orient='records', date_format='iso')
-
-        # HTML con el gráfico
-        html_content = f"""
-        <html>
-        <head><script src="https://cdn.plot.ly/plotly-latest.min.js"></script></head>
-        <body>
-            <div id="chart" style="width:100%; height:100%;"></div>
-            <script>
-                var data = {data_json};
-                var trace1 = {{
-                    x: data.map(d => d.time),
-                    y: data.map(d => d.QObs),
-                    type: 'scatter',
-                    name: 'QObs'
-                }};
-                var trace2 = {{
-                    x: data.map(d => d.time),
-                    y: data.map(d => d.QSim),
-                    type: 'scatter',
-                    name: 'QSim'
-                }};
-                Plotly.newPlot('chart', [trace1, trace2], {{title: 'Caudales'}});
-            </script>
-        </body>
-        </html>
-        """
-        self.dlg.View_hidro.setHtml(html_content)    
-        
+    
     
  
     #PACOGOM: ummm pra importar paquetes etc. Lo necsito. Y además el codigo para ejecutar etc que es el process
@@ -675,11 +642,13 @@ class ModelUH:
             resultsres['pbias'] = funpbias(np.array(huConv),np.array(qobs))
 
         resultsres = pd.DataFrame([resultsres])
-        resultsres_path = os.path.join(temp_dir, 'model_resum.csv')
+        resultsres_path = os.path.join(temp_dir, 'model_summary.csv')
         resultsres.to_csv(resultsres_path, index=False)
         
         #PACOGOM a ver si puedo sacar la tabla:
         self.llenar_tabla(resultsres.round(decimals=4))    
+        
+
 
         #GRAFICO INCLUYENDO RESUUMEEN:
 
@@ -694,17 +663,6 @@ class ModelUH:
         plt.ylabel('Flow (m3/s)')
         plt.grid(True, linestyle='--', alpha=0.6)
         plt.legend()
-
-
-        #carga en el QWidget:
-        canvas = FigureCanvas(plt)
-        layout = self.dlg.widgetHidro.layout()  # Asegúrate de tener un layout en Qt Designer
-        if layout is None:
-            layout = QVBoxLayout()
-            self.dlg.widgetHidro.setLayout(layout)
-        layout.addWidget(canvas)
-
-
 
         #temp_dir = tempfile.gettempdir()
         temp_dir = workdir
@@ -721,11 +679,6 @@ class ModelUH:
         layout.addWidget(label)
         dialog.setLayout(layout)
         dialog.exec_()
-        
-        #PACOGOM A VER SI PIRULA EL GRAFICO
-        #generar_grafico(self,tabla)
-        
-        
         
         #6.  OPTIMIZACION###############
         
