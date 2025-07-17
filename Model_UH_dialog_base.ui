@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>810</width>
-    <height>513</height>
+    <width>900</width>
+    <height>610</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>810</width>
-    <height>513</height>
+    <width>900</width>
+    <height>610</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>810</width>
-    <height>513</height>
+    <width>900</width>
+    <height>610</height>
    </size>
   </property>
   <property name="windowTitle">
@@ -30,8 +30,8 @@
     <rect>
      <x>10</x>
      <y>10</y>
-     <width>791</width>
-     <height>491</height>
+     <width>881</width>
+     <height>581</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -52,7 +52,7 @@
     <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
    <property name="currentIndex">
-    <number>2</number>
+    <number>0</number>
    </property>
    <widget class="QWidget" name="tab_model">
     <property name="whatsThis">
@@ -79,7 +79,10 @@
       </font>
      </property>
      <property name="text">
-      <string>Subbasins</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subbasins &lt;span style=&quot; font-weight:600; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
      </property>
     </widget>
     <widget class="QgsMapLayerComboBox" name="cb_invector">
@@ -87,7 +90,7 @@
       <rect>
        <x>110</x>
        <y>20</y>
-       <width>651</width>
+       <width>531</width>
        <height>27</height>
       </rect>
      </property>
@@ -97,8 +100,8 @@
       <rect>
        <x>20</x>
        <y>170</y>
-       <width>741</width>
-       <height>281</height>
+       <width>841</width>
+       <height>371</height>
       </rect>
      </property>
      <property name="frameShape">
@@ -111,8 +114,8 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>80</y>
-        <width>221</width>
+        <y>100</y>
+        <width>251</width>
         <height>21</height>
        </rect>
       </property>
@@ -127,7 +130,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>130</y>
+        <y>150</y>
         <width>221</width>
         <height>16</height>
        </rect>
@@ -141,7 +144,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Subbasins length flowpath (km&lt;sup&gt;2&lt;/sup&gt;)</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subbasins length flowpath (km)&lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="textFormat">
        <enum>Qt::MarkdownText</enum>
@@ -151,7 +154,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>60</y>
+        <y>80</y>
         <width>151</width>
         <height>16</height>
        </rect>
@@ -165,7 +168,7 @@
        </font>
       </property>
       <property name="text">
-       <string>Subbasins area (km&lt;sup&gt;2&lt;/sup&gt;)</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subbasins area&lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt; (km&lt;span style=&quot; vertical-align:super;&quot;&gt;2&lt;/span&gt;)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
       <property name="textFormat">
        <enum>Qt::MarkdownText</enum>
@@ -175,8 +178,8 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>150</y>
-        <width>221</width>
+        <y>170</y>
+        <width>251</width>
         <height>21</height>
        </rect>
       </property>
@@ -193,9 +196,9 @@
      <widget class="QFrame" name="frame_2">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>80</y>
-        <width>221</width>
+        <x>320</x>
+        <y>100</y>
+        <width>251</width>
         <height>31</height>
        </rect>
       </property>
@@ -235,7 +238,7 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>160</x>
+         <x>180</x>
          <y>10</y>
          <width>51</width>
          <height>14</height>
@@ -259,7 +262,7 @@
        </property>
        <property name="geometry">
         <rect>
-         <x>80</x>
+         <x>90</x>
          <y>10</y>
          <width>71</width>
          <height>14</height>
@@ -276,13 +279,16 @@
        <property name="text">
         <string>Normal</string>
        </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
       </widget>
      </widget>
      <widget class="QLabel" name="label_13">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>10</y>
+        <x>320</x>
+        <y>20</y>
         <width>171</width>
         <height>20</height>
        </rect>
@@ -296,15 +302,15 @@
        </font>
       </property>
       <property name="text">
-       <string>Curve Number (CN)</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Curve Number (CN)&lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QgsFieldComboBox" name="cb_cn">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>30</y>
-        <width>221</width>
+        <x>320</x>
+        <y>40</y>
+        <width>251</width>
         <height>21</height>
        </rect>
       </property>
@@ -319,7 +325,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>170</y>
+        <y>210</y>
         <width>271</width>
         <height>20</height>
        </rect>
@@ -333,15 +339,15 @@
        </font>
       </property>
       <property name="text">
-       <string>Min. height in lenth flowpath (m)</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Min. height in lenth flowpath (m)&lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QgsFieldComboBox" name="cb_max_height">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>240</y>
-        <width>221</width>
+        <y>300</y>
+        <width>251</width>
         <height>21</height>
        </rect>
       </property>
@@ -356,7 +362,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>210</y>
+        <y>270</y>
         <width>221</width>
         <height>31</height>
        </rect>
@@ -370,15 +376,15 @@
        </font>
       </property>
       <property name="text">
-       <string>Max. height in length flowpath (m)</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Max. height in length flowpath (m)&lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QgsFieldComboBox" name="cb_ID">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>30</y>
-        <width>221</width>
+        <y>40</y>
+        <width>251</width>
         <height>21</height>
        </rect>
       </property>
@@ -393,7 +399,7 @@
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>10</y>
+        <y>20</y>
         <width>151</width>
         <height>16</height>
        </rect>
@@ -407,15 +413,15 @@
        </font>
       </property>
       <property name="text">
-       <string>Subbasins ID</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Subbasins ID&lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QgsFieldComboBox" name="cb_min_height">
       <property name="geometry">
        <rect>
         <x>20</x>
-        <y>190</y>
-        <width>221</width>
+        <y>230</y>
+        <width>251</width>
         <height>21</height>
        </rect>
       </property>
@@ -429,8 +435,8 @@
      <widget class="QLabel" name="label_6">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>60</y>
+        <x>320</x>
+        <y>80</y>
         <width>181</width>
         <height>16</height>
        </rect>
@@ -450,10 +456,10 @@
      <widget class="QFrame" name="frame_3">
       <property name="geometry">
        <rect>
-        <x>510</x>
+        <x>600</x>
         <y>30</y>
         <width>221</width>
-        <height>151</height>
+        <height>231</height>
        </rect>
       </property>
       <property name="frameShape">
@@ -512,7 +518,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>50</y>
+         <y>70</y>
          <width>201</width>
          <height>20</height>
         </rect>
@@ -536,7 +542,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>70</y>
+         <y>90</y>
          <width>201</width>
          <height>21</height>
         </rect>
@@ -552,7 +558,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>90</y>
+         <y>130</y>
          <width>161</width>
          <height>31</height>
         </rect>
@@ -576,7 +582,7 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>120</y>
+         <y>160</y>
          <width>201</width>
          <height>21</height>
         </rect>
@@ -592,7 +598,7 @@
      <widget class="QCheckBox" name="ch_routing">
       <property name="geometry">
        <rect>
-        <x>510</x>
+        <x>600</x>
         <y>11</y>
         <width>211</width>
         <height>17</height>
@@ -614,11 +620,14 @@
       </property>
      </widget>
      <widget class="QgsFileWidget" name="output2">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>210</y>
-        <width>461</width>
+        <x>320</x>
+        <y>300</y>
+        <width>511</width>
         <height>27</height>
        </rect>
       </property>
@@ -626,8 +635,8 @@
      <widget class="QLabel" name="label_11">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>180</y>
+        <x>320</x>
+        <y>270</y>
         <width>221</width>
         <height>27</height>
        </rect>
@@ -641,14 +650,14 @@
        </font>
       </property>
       <property name="text">
-       <string>Output folder:</string>
+       <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Output folder&lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt;:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
       </property>
      </widget>
      <widget class="QPushButton" name="pushButtoncancel">
       <property name="geometry">
        <rect>
-        <x>660</x>
-        <y>250</y>
+        <x>760</x>
+        <y>340</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -668,8 +677,8 @@
      <widget class="QPushButton" name="pushButtonok">
       <property name="geometry">
        <rect>
-        <x>580</x>
-        <y>250</y>
+        <x>680</x>
+        <y>340</y>
         <width>75</width>
         <height>23</height>
        </rect>
@@ -686,29 +695,62 @@
        <string>Ok</string>
       </property>
      </widget>
-     <widget class="QgsFileWidget" name="output">
-      <property name="enabled">
-       <bool>false</bool>
-      </property>
+     <widget class="QFrame" name="frame_4">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>250</y>
-        <width>161</width>
-        <height>27</height>
+        <x>320</x>
+        <y>170</y>
+        <width>251</width>
+        <height>41</height>
        </rect>
       </property>
-      <property name="fileWidgetButtonVisible">
-       <bool>true</bool>
+      <property name="frameShape">
+       <enum>QFrame::StyledPanel</enum>
       </property>
-      <property name="useLink">
-       <bool>false</bool>
+      <property name="frameShadow">
+       <enum>QFrame::Raised</enum>
       </property>
-      <property name="fullUrl">
-       <bool>false</bool>
+      <widget class="QCheckBox" name="ch_optimize">
+       <property name="geometry">
+        <rect>
+         <x>10</x>
+         <y>10</y>
+         <width>81</width>
+         <height>17</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Arial</family>
+         <pointsize>9</pointsize>
+         <weight>50</weight>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="text">
+        <string>Optimize?</string>
+       </property>
+      </widget>
+     </widget>
+     <widget class="QLabel" name="label_23">
+      <property name="geometry">
+       <rect>
+        <x>320</x>
+        <y>150</y>
+        <width>181</width>
+        <height>16</height>
+       </rect>
       </property>
-      <property name="defaultRoot">
-       <string/>
+      <property name="font">
+       <font>
+        <family>Arial</family>
+        <pointsize>10</pointsize>
+        <weight>50</weight>
+        <bold>false</bold>
+       </font>
+      </property>
+      <property name="text">
+       <string>Options:</string>
       </property>
      </widget>
      <zorder>cb_area</zorder>
@@ -730,8 +772,9 @@
      <zorder>label_11</zorder>
      <zorder>pushButtoncancel</zorder>
      <zorder>pushButtonok</zorder>
-     <zorder>output</zorder>
      <zorder>output2</zorder>
+     <zorder>frame_4</zorder>
+     <zorder>label_23</zorder>
     </widget>
     <widget class="QLabel" name="label_5">
      <property name="geometry">
@@ -772,7 +815,7 @@
       </font>
      </property>
      <property name="text">
-      <string>Precipitation (mm/h)</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Precipitation (mm/h)&lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
     <widget class="QLabel" name="label_10">
@@ -804,7 +847,7 @@
       <rect>
        <x>190</x>
        <y>70</y>
-       <width>571</width>
+       <width>671</width>
        <height>27</height>
       </rect>
      </property>
@@ -814,30 +857,73 @@
       <rect>
        <x>190</x>
        <y>100</y>
-       <width>571</width>
+       <width>671</width>
        <height>27</height>
       </rect>
      </property>
     </widget>
-    <widget class="QCheckBox" name="ch_optimize">
+    <widget class="QLabel" name="label_18">
      <property name="geometry">
       <rect>
-       <x>680</x>
-       <y>150</y>
-       <width>81</width>
-       <height>17</height>
+       <x>670</x>
+       <y>20</y>
+       <width>101</width>
+       <height>27</height>
       </rect>
      </property>
      <property name="font">
       <font>
        <family>Arial</family>
-       <pointsize>9</pointsize>
-       <weight>50</weight>
-       <bold>false</bold>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
       </font>
      </property>
      <property name="text">
-      <string>Optimize?</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Time interval &lt;span style=&quot; color:#ff0000;&quot;&gt;*&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_19">
+     <property name="geometry">
+      <rect>
+       <x>830</x>
+       <y>20</y>
+       <width>31</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <family>Arial</family>
+       <pointsize>10</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; color:#000000;&quot;&gt;min.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+     </property>
+     <property name="textFormat">
+      <enum>Qt::AutoText</enum>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="lineEdit_interval">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>20</y>
+       <width>51</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="layoutDirection">
+      <enum>Qt::LeftToRight</enum>
+     </property>
+     <property name="text">
+      <string>60</string>
      </property>
     </widget>
    </widget>
@@ -853,8 +939,8 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>381</width>
-       <height>431</height>
+       <width>471</width>
+       <height>541</height>
       </rect>
      </property>
      <property name="widgetResizable">
@@ -865,8 +951,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>379</width>
-        <height>429</height>
+        <width>469</width>
+        <height>539</height>
        </rect>
       </property>
       <widget class="QTableWidget" name="table_results">
@@ -874,8 +960,8 @@
         <rect>
          <x>10</x>
          <y>30</y>
-         <width>361</width>
-         <height>91</height>
+         <width>451</width>
+         <height>141</height>
         </rect>
        </property>
       </widget>
@@ -904,9 +990,9 @@
        <property name="geometry">
         <rect>
          <x>10</x>
-         <y>130</y>
-         <width>361</width>
-         <height>291</height>
+         <y>180</y>
+         <width>451</width>
+         <height>351</height>
         </rect>
        </property>
        <property name="url">
@@ -920,10 +1006,10 @@
     <widget class="QScrollArea" name="scrollArea_2">
      <property name="geometry">
       <rect>
-       <x>400</x>
+       <x>490</x>
        <y>10</y>
        <width>381</width>
-       <height>431</height>
+       <height>541</height>
       </rect>
      </property>
      <property name="widgetResizable">
@@ -935,7 +1021,7 @@
         <x>0</x>
         <y>0</y>
         <width>379</width>
-        <height>429</height>
+        <height>539</height>
        </rect>
       </property>
       <widget class="QTableWidget" name="table_results_2">
@@ -944,7 +1030,7 @@
          <x>10</x>
          <y>30</y>
          <width>361</width>
-         <height>391</height>
+         <height>501</height>
         </rect>
        </property>
       </widget>
@@ -987,8 +1073,8 @@
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>761</width>
-       <height>491</height>
+       <width>851</width>
+       <height>531</height>
       </rect>
      </property>
      <property name="mouseTracking">
@@ -1004,11 +1090,11 @@
       <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;title&gt;README&lt;/title&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial'; font-size:10pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#ffffff&quot;&gt;
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Arial','Arial','Arial','Arial'; font-size:10pt; font-weight:400; font-style:normal;&quot; bgcolor=&quot;#ffffff&quot;&gt;
 &lt;h1 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:xx-large; font-weight:600; color:#000000;&quot;&gt;hidroUH&lt;/span&gt;&lt;/h1&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:10px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;This QGIS plugin can be used to estimate the surface flow generated by a precipitation event at the watershed scale, either in an aggregated mode or by dividing the watershed into subwatersheds. It uses the curve number (CN) method of the Soil Conservation Service (SCS) to approximate the separation between net precipitation (Pn) and precipitation that does not generate surface runoff), the SCS unit hydrograph for rainfall–runoff conversion, and the Muskingum method for water in-channel routing.&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:10px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;For more details see the readme file on the GitHub repository &lt;/span&gt;&lt;a href=&quot;https://github.com/fdfsfjgomariz/hidroUH/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/fdfsfjgomariz/hidroUH/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;To report failures or make suggestions, please contact &lt;/span&gt;&lt;a href=&quot;mailto:fjgomariz@um.es&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;fjgomariz@um.es&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:10px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;For more details see the readme file on the GitHub repository &lt;/span&gt;&lt;a href=&quot;https://github.com/fdfsfjgomariz/hidroUH/&quot;&gt;&lt;span style=&quot; font-family:'Arial'; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/fdfsfjgomariz/hidroUH/&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;To report failures or make suggestions, please contact &lt;/span&gt;&lt;a href=&quot;mailto:fjgomariz@um.es&quot;&gt;&lt;span style=&quot; font-family:'Arial'; text-decoration: underline; color:#0000ff;&quot;&gt;fjgomariz@um.es&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; text-decoration: underline; color:#4183c4;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; color:#333333;&quot;&gt;Acknowledgments&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;: This work was supported by the [Grant TED2021-131131B-I00] funded by MICIU/AEI/10.13039/501100011033 and by the European Union NextGenerat onEU/PRTR.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
@@ -1017,16 +1103,16 @@ p, li { white-space: pre-wrap; }
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Date&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;: May 30 2025&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;h2 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:x-large; font-weight:600; color:#000000;&quot;&gt;1. Plugin installation and requirements&lt;/span&gt;&lt;/h2&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:10px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;This plugin has been developed using &lt;/span&gt;&lt;a href=&quot;https://www.qgis.org/en/site/forusers/download.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;QGIS&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; 3.40 LTR.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:10px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;This plugin has been developed using &lt;/span&gt;&lt;a href=&quot;https://www.qgis.org/en/site/forusers/download.html&quot;&gt;&lt;span style=&quot; font-family:'Arial'; text-decoration: underline; color:#0000ff;&quot;&gt;QGIS&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; 3.40 LTR.&lt;/span&gt;&lt;/p&gt;
 &lt;h3 align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/h3&gt;
 &lt;h3 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;1.1.Installation&lt;/span&gt;&lt;/h3&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;To install the plugin, download it in ZIP format from &lt;/span&gt;&lt;a href=&quot;https://github.com/fdfsfjgomariz/hidroUH/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/fdfsfjgomariz/hidroUH/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;:&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;To install the plugin, download it in ZIP format from &lt;/span&gt;&lt;a href=&quot;https://github.com/fdfsfjgomariz/hidroUH/&quot;&gt;&lt;span style=&quot; font-family:'Arial'; text-decoration: underline; color:#0000ff;&quot;&gt;https://github.com/fdfsfjgomariz/hidroUH/&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;:&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;In the QGIS GUI, select &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Plugins -&amp;gt; Manage and Install Plugin&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; from the Menu bar .&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;In the open dialog box, select &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Install from ZIP&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;.&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Use the provided selector widget to select the downloaded zip file on your device.&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Click in the &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Install Plugin&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; button below.&lt;/span&gt;&lt;/li&gt;&lt;/ol&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Arial';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;After installation, the plugin can be accessed via the &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;Plugins&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; menu or the toolbar button.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;1.2. Requeriments&lt;/span&gt;&lt;/p&gt;
@@ -1041,12 +1127,17 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Consolas','Liberation Mono','Courier','monospace'; font-size:12px; color:#333333; background-color:#f8f8f8;&quot;&gt;shell script python3 -m pip install numpy pandas matplotlib scipy&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Consolas','Liberation Mono','Courier','monospace'; font-size:12px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;h2 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:x-large; font-weight:600; color:#000000;&quot;&gt;2. Example of use&lt;/span&gt;&lt;/h2&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;To follow this tutorial, download the available sample dataset &lt;/span&gt;&lt;a href=&quot;https://github.com/fdfsfjgomariz/hidroUH/test_datasets/DataBasinParriel.zip&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;DataBasinParriel.zip&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;, which correspond to the Rambla de Parriel in the Region of Murcia, south-eastern Spain. The basin scheme composed of three sub-basins and their channels. The translation of the hydrograph from the two headwater sub-basins to the catchment area &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;C3&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;, which is the catchment area associated with the basin outlet, will be estimated.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;To follow this tutorial, download the available sample dataset &lt;/span&gt;&lt;a href=&quot;https://github.com/fdfsfjgomariz/hidroUH/test_datasets/DataBasinParriel.zip&quot;&gt;&lt;span style=&quot; font-family:'Arial'; text-decoration: underline; color:#0000ff;&quot;&gt;DataBasinParriel.zip&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;, which correspond to the Rambla de Parriel in the Region of Murcia, south-eastern Spain. The basin scheme composed of three sub-basins and their channels. The translation of the hydrograph from the two headwater sub-basins to the catchment area &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;C3&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;, which is the catchment area associated with the basin outlet, will be estimated.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;This file contains:&lt;/span&gt;&lt;/p&gt;
-&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;A shapefile polygon layer of the Rambla de Parriel basin (SE Spain): &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;basin.shp&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Two files with hourly precipitation and runoff data observed in the Rambla outlet in CSV format: &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;precip.csv&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;ObservedFlow.csv&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; font-style:italic; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;This file contains data for aggregated basin:&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;A shapefile polygon layer of the Rambla de Parriel watershed (SE Spain): &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;basin.shp&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Two files with hourly precipitation and runoff data observed in the Rambla outlet in CSV format: &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;AGprecip&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;.csv&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;AGObservedFlow.csv&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; font-style:italic; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; color:#333333;&quot;&gt;This file contains data for a sub-basin model implementation:&lt;/span&gt;&lt;/p&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;A shapefile polygon layer of 3 sub-basins in the Rambla de Parriel watershed (SE Spain): &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;subbasin.shp&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Two files with hourly precipitation for 3 sub-basins and runoff data observed in the Rambla outlet in CSV format: &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;DIST&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;precip&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;.csv&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;DISTObservedFlow.csv&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-weight:600; font-style:italic; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; font-style:italic; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;There are three tabs on the plugin dialog: &lt;/span&gt;&lt;/p&gt;
 &lt;ol style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;'Model': the input data required must be entered in this section. &lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;'Results': shows a summary of the results (detailed results will be generated in the plugin output directory). &lt;/span&gt;&lt;/li&gt;
@@ -1057,28 +1148,29 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Subbasins &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:400;&quot;&gt;(&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:400; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:400;&quot;&gt;): Select on the drop-down menu the polygon layer with the basin (or subbasins) shape. It must have been previously loaded as a layer in QGIS canvas.&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Time interval&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:400;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:400; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:400;&quot;&gt;): Time interval in minutes for which the simulation will be generated. It must coincide with the time step of the input files. Its operating range goes from 5 minutes to 720 minutes. By default, the time step is set to 60 min.&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Precipitation (mm/h)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;): Use the file selector widget to import the CSV file with the precipitation data. This file must contain a first column storing the date and time, and as many columns as sub-basins to be included in the model, named with the same identifier of basin or sub-basins in the &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Subbasins&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; layer attibute table. The columns of this csv file must be separated by comma (&amp;quot;,&amp;quot;) and use the point (&amp;quot;.&amp;quot;) as the decimal symbol, and store the values from the hyetographs associated with each sub-basin at (or below) the time step of interest (previously obtained by the user from the closest weather station, or from an average series from several rain gauges or gridded data). &lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Flow (m&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; vertical-align:super;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;/s by hour)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (optional): Use the file selector widget to import the CSV file (with the same specifications as the precipitation file) storing the flow observed at the mouth of the basin to estimate the goodness of fit between the simulation and the observed flow and calibrate, if the &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Optimize?&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; check box is selected.&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Parameters&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; box:&lt;/span&gt;
+&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Precipitation (mm/h)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;): Use the file selector widget to import the CSV file with the precipitation data. This file must contain a first column with a sequential unique identifier for each observation, the second and third columns with date and time data, and as many columns as sub-basins to be included in the model, named with the same identifier of basin or sub-basins in the &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Subbasins&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; layer attibute table. The columns of this csv file must be separated by comma (&amp;quot;,&amp;quot;) and use the point (&amp;quot;.&amp;quot;) as the decimal symbol, and store the values from the hyetographs associated with each sub-basin at (or below) the time step of interest (previously obtained by the user from the closest weather station, or from an average series from several rain gauges or gridded data). &lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Flow (m&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; vertical-align:super;&quot;&gt;3&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;/s by hour)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (optional): Use the file selector widget to import the CSV file (with the same specifications as the precipitation file) storing the flow observed at the mouth of the basin to estimate the goodness of fit between the simulation and the observed flow and calibrate, if the &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Optimize?&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; check box is selected. The columns included are the same as in the precipitation file but the single flow column will be named according to the name of the basin to which it is associated.&lt;/span&gt;&lt;/li&gt;
+&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Parameters&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; box. Most of them correspond to columns needed in the spatial layer of hydrological basins:&lt;/span&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 2;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Subbasins ID&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;): Use the drop-down menu to select the column in the attribute table with the identifier of each sub-basin (It could be either numeric or character).&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Subbasins area (km&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; vertical-align:super;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;): Use the drop-down menu to select the column in the attribute table containing the area of the sub-basin (km&lt;/span&gt;&lt;span style=&quot; font-size:14px; vertical-align:super;&quot;&gt;2&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;).&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Subbasins length flowpath (km)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;): Use the drop-down menu to select the column in the  attribute table containing the length (km) of the maximum flow line (or the main channel) of the sub-basin.&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Min. height in lenth flowpath (m)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;) and &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Max. height in length flowpath (m)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (required): Use the drop-down menus to select the column in the attribute table containing the maximum and minimum altitudes, expressed in metres, of the line of maximum flow (or, in its absence, of the main channel) of the sub-basin (i.e. the elevations of the beginning and end of this line).&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Curve Number (CN)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;): Use the drop-down menu to select the column in the attribute table  containing the average curve number of the sub-basin.&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Antecedent wet&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; radio buttons (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;): Option to adjust the curve number according to background soil moisture conditions. By defalult, it is set to &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Normal&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;, usually corresponding to the curve number values in the existing spatial layers and the tabulated values.&lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Include channel routing&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; ckeck button (optional): If there is more than one sub-basin, this option indicates to the plugin whether the translation in the riverbed should be computed. It should be noted that the translation will take place in subsequent sub-basins downstream of the headwater sub-basins. The final flow at the outlets is the sum of the flow generated in the sub-basin through which it transits, plus the flow arriving after transiting through the considered riverbed. The parameters to be included in this case are:&lt;/span&gt;
+&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Include channel routing&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; ckeck button (optional): If there is more than one sub-basin, this option indicates to the plugin whether the translation in the riverbed should be computed. It should be noted that the translation will take place in subsequent sub-basins downstream of the headwater sub-basins. The final flow at the outlets is the sum of the flow generated in the sub-basin through which it transits, plus the flow arriving after transiting through the considered riverbed. The values included in the columns will depend on whether or not routing is considered in the sub-basin: in an aggregated model scheme it is not considered (the value included will be null), while if the scheme is composed of sub-basins, in those for which routing is not considered (headwater sub-basins) the cell will be left blank, including values for the sub-basins in which routing occurs. The parameters to be included in this case are:&lt;/span&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 3;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Channel length (km)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;: Use the drop-down menu to select the column in the attribute table containing the length, expressed in km, of the channel associated with the sub-basin through which the hydrograph entering upstream of the sub-basin will flow.&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Min. height in channel (m)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Max. height in channel (m)&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;: Use the drop-down menus to select the columns in the attribute table  containing the maximum and minimum altitude, expressed in metres, associated with the watercourse, these altitudes are considered to correspond to the end and the beginning of the watercourse.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px; font-weight:600;&quot;&gt;Output folder&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (&lt;/span&gt;&lt;span style=&quot; font-size:14px; color:#ff0000;&quot;&gt;required&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;): Use the selector widget to select the output directory to save the detailed information generated by the model (see next section). &lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:2; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;In addition to the parameters defined above in the polygon layer as columns, a last column must be included to define the conceptual scheme (network) of the basin. This column (in the two example layers it is called &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; font-style:italic; color:#333333;&quot;&gt;Downstream&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;) defines the connections between each sub-basin with respect to the downstream sub-basin. To understand the process, an example of a connection to represent the Parriel basin is shown in figure (this represent scheme for figure in section 3). Two headwater sub-basins (C1 and C2) are defined that connect downstream with sub-basin C3. Therefore, the resulting hydrograph in C3 will not be the one generated in it, but its sum plus the inflow hydrographs of C1 and C2, which will also pass through a channel until reaching the outlet of C3.&lt;/span&gt;&lt;/p&gt;
+&lt;h3 align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/h3&gt;
 &lt;h3 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;2.2. Results tab&lt;/span&gt;&lt;/h3&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; color:#333333;&quot;&gt;The results will be shown in two different ways: displayed in the &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-weight:600; font-style:italic; color:#333333;&quot;&gt;Results&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; color:#333333;&quot;&gt; tab, and stored in the &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-weight:600; font-style:italic; color:#333333;&quot;&gt;Output folder&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; color:#333333;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
-&lt;h3 align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-size:large; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/h3&gt;
+&lt;h3 align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Arial'; font-size:large; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/h3&gt;
 &lt;h3 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;2.2.1. &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; font-style:italic; color:#333333;&quot;&gt;Results&lt;/span&gt;&lt;/h3&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;It provides with:&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;A tabular summary of the overall simulation results, including the total accumulated precipitation (&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;P&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;), the initial (&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Ia) and accumulated infiltration (F&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;), the effective precipitation (&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Pe&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;), and the peak flow of the simulated event at the mouth of the basin (&lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;PeakSim) for the whole event and the studied basin. If an observed flow file has been included, the summary will also include the peak observed flow (PeakObs&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;) and the goodness-of-fit statistics &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;nse&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;, &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;rmse&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; and &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;pbias&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (defined in section 3.4.). &lt;/span&gt;&lt;/li&gt;
-&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;A graph of the associated flow hydrograph. If an observed flow file has been included, both the simulated (blue line) and the observed (black line) flow hydrographs will be dispayed.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
+&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;A graph of the associated flow hydrograph (output associated to basin in aggregated model or the output associated with the last sub-basin). If an observed flow file has been included, both the simulated (blue line) and the observed (black line) flow hydrographs will be dispayed.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:1; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;h3 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;2.2.2. &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; font-style:italic; color:#333333;&quot;&gt;Output folder&lt;/span&gt;&lt;/h3&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;This folder stores the detailed results (plots and tabular data). The produced plots are:&lt;/span&gt;&lt;/p&gt;
@@ -1097,8 +1189,8 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;3.1. Loss&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;The &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;curve number&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; method, developed by the U.S. Soil Conservation Service (SCS, 1985), is a simple way to determine the part of a rainfall histogram that will generate direct runoff, known as effective or net precipitation (&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;Pe). &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;It has been widely used to study rainfall events in catchments where infiltration measurements are unavailable, producing results that closely match the observed data. The method is based on the following assumptions: The soil initially retains a certain amount of precipitation. After that, the abstraction progressively decreases. For this purpose, the concept of a runoff threshold&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt; (P0&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;) (also called initial abstraction - &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;Ia&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;) is assumed. This value depends on soil texture, land use and management, and is usually slope-dependent. These factors are integrated into a single number: The dimensionless parameter curve number (&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;), which varies between 0 (no infiltration) and 100 (maximum infiltration).&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;To separate infiltration and runoff, the so called &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;maximum potential infiltration &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;parameter &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; font-style:italic; color:#333333;&quot;&gt;S&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; can be estimated, which in turn depends on &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN.&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;NC can be obtained from the SCS (1985) tables. To do so, it is necessary to have texture values, which allow the hydrological soil groups to be obtained, as well as land use cover and slope information. Alternatively, there are different approximations based on land use coverage or spatially distributed approximations. For example, in the case of Spain, &lt;/span&gt;&lt;a href=&quot;https://cdn.mitma.gob.es/portal-web-drupal/carreteras/52ic_fom2982016_err_fom1852017_res180326_consolidado.pdf&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Norma 5.2-IC de Drenaje Superficial de la Instrucción de Carreteras (2016)&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; tabulates different &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; values for Corine land cover classes. &lt;/span&gt;&lt;a href=&quot;https://www.miteco.gob.es/es/agua/temas/gestion-de-los-riesgos-de-inundacion/snczi/mapa-de-caudales-maximos.html&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Ministerio para la Transición Ecológica y el Reto Demográfico&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; has approximated for the whole of Spain values of &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;P0&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; from which &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; values can be derived.&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;The &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; values approximated from the tables are for either unknown antecedent moisture conditions or intermediate moisture values. If the antecedent moisture conditions are known, the &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; must be corrected: if the conditions were dry, the equation proposed by &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; color:#ff0000;&quot;&gt;iXXXXXX()&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; color:#333333;&quot;&gt; &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;s used; if the conditions were wet,  the equation proposed by&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; color:#ff0000;&quot;&gt; iXXXXXX()&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; s used.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;NC can be obtained from the SCS (1985) tables. To do so, it is necessary to have texture values, which allow the hydrological soil groups to be obtained, as well as land use cover and slope information. Alternatively, there are different approximations based on land use coverage or spatially distributed approximations. For example, in the case of Spain, &lt;/span&gt;&lt;a href=&quot;https://cdn.mitma.gob.es/portal-web-drupal/carreteras/52ic_fom2982016_err_fom1852017_res180326_consolidado.pdf&quot;&gt;&lt;span style=&quot; font-family:'Arial'; text-decoration: underline; color:#0000ff;&quot;&gt;Norma 5.2-IC de Drenaje Superficial de la Instrucción de Carreteras (2016)&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; tabulates different &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; values for Corine land cover classes. &lt;/span&gt;&lt;a href=&quot;https://www.miteco.gob.es/es/agua/temas/gestion-de-los-riesgos-de-inundacion/snczi/mapa-de-caudales-maximos.html&quot;&gt;&lt;span style=&quot; font-family:'Arial'; text-decoration: underline; color:#0000ff;&quot;&gt;Ministerio para la Transición Ecológica y el Reto Demográfico&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; has approximated for the whole of Spain values of &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;P0&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; from which &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; values can be derived.&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;The &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; values approximated from the tables are for either unknown antecedent moisture conditions or intermediate moisture values. If the antecedent moisture conditions are known, the &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;CN&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; must be corrected: if the conditions were dry or wet, the equations proposed by Chow et al. (1994) are used.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;Once &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;S&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; is obtained, the remaining components &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;Ia &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;(initial infiltration before direct runoff occurs), &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;Pe &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;(effective precipitation, the fraction of precipitation that generates direct runoff) and (cummulative infiltration, which occurs at the same time as runoff)  can be approximated in a temporally distributed step &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;t&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;3.2. Transform&lt;/span&gt;&lt;/p&gt;
@@ -1108,7 +1200,7 @@ p, li { white-space: pre-wrap; }
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;The time of concentration &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;Tc&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (hours) is the time it takes for the last raindrop falling at the furthest point of the catchment to reach the outfall. The plugin implements the equation proposed by Témez (1987), which requires the length &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;L&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (in km) of the maximum flow line of the sub-basin (i.e. the length of the main channel to the watershed) and the average slope &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;S&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; of the main channel, expressed as the tangent of the slope.&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;The peak flow &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;Qp&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (m3/sec) can be obtained from &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Tp&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; and the sub-basin area &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;A&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (km2).&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;The base time &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;Tb&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; or duration time (hours) of direct runoff can be obtained as &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Tb = 2.67 * Tp.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Arial';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;The problem with the synthetic triangular hydrograph of the SCS (1986) is that it does not accurately represent the shape of a hydrograph. Therefore, the plugin uses the dimensionless hydrograph in the standard PRF-484 form (SCS, 1986; USACE, 2025). It is then possible to generate the flow hydrograph for any &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-style:italic; color:#333333;&quot;&gt;Pe&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; from its convolution.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;h3 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:large; font-weight:600; color:#333333;&quot;&gt;3.3. Routing&lt;/span&gt;&lt;/h3&gt;
@@ -1124,13 +1216,14 @@ p, li { white-space: pre-wrap; }
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;The Nash and Sutcliffe efficiency index &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;nse&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; is a dimensionless index with a similar interpretation to R², but more robust to problems such as sensitivity to extreme biases and insensitivity to constant biases (additive or multiplicative).&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Root mean square error &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;rmse&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;. Is a measure of absolute error (in the same units as the variable under consideration) that measures the difference between the values predicted by a model and the actual observed values; it ranges from 0 (perfect fit) to + infty (high error).&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Percent bias &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-weight:600; font-style:italic;&quot;&gt;pbias&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;, measures the average tendency of the simulated data to be larger or smaller than their reference values, expressed as a percentage of the variable magnitude. Positive values indicate underestimation and negative values indicate overestimation.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
-&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Arial';&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;Regarding model calibration, if this option is selected and there is available flow data, the plugin uses an optimisation algorithm based on ScyPy &lt;/span&gt;&lt;a href=&quot;https://docs.scipy.org/doc/scipy/reference/optimize.minimize-lbfgsb.html&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; text-decoration: underline; color:#4183c4;&quot;&gt;L-BFGS-B&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; (Zhu et al., 1997), which is a quasi-Newton method for solving large nonlinear optimisation problems with variable bounds.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;The plugin attempts to fit the model by modifying both the parameters of all the sub-basins and the parameters it calculates internally from &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; font-style:italic; color:#333333;&quot;&gt;Tc&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;, including the streams parameters and the Muskingum parameter &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; font-style:italic; color:#333333;&quot;&gt;X&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; if translation is used. The calibration forks are set a priori in the plugin, so it is not necessary to include them.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;In this first experimental version of the plugin, the efficiency index &lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; font-weight:600; font-style:italic; color:#333333;&quot;&gt;nse&lt;/span&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt; is used as the objective function, the problem becomes then one of maximising this goodness-of-fit statistic.&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;justify&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;h2 align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:x-large; font-weight:600; color:#000000;&quot;&gt;References&lt;/span&gt;&lt;/h2&gt;
 &lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Chow, V. T. (1994). &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Hidráulica de canales abiertos&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt; (Traducción). Santafé de Bogotá, Colombia: McGraw-Hill Interamericana S.A.&lt;/span&gt;&lt;/li&gt;
+&lt;ul style=&quot;margin-top: 0px; margin-bottom: 0px; margin-left: 0px; margin-right: 0px; -qt-list-indent: 1;&quot;&gt;&lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Chow, V.T., Maidment, D.R. &amp;amp; Mays, L.W. (1994). Hidrología Aplicada (Traducción). Santafé de Bogotá, Colombia: McGraw-Hill Interamericana S.A.&lt;/span&gt;&lt;/li&gt;&lt;/ul&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Moriasi, D. N., Gitau, M. W., Pai, N., &amp;amp; Daggupati, P. (2015). Hydrologic and water quality models: Performance measures and evaluation criteria. &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Transactions of the ASABE&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;, 58(6), 1763–1785. https://doi.org/10.13031/trans.58.10715&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;Nash, J. E., &amp;amp; Sutcliffe, J. V. (1970). River flow forecasting through conceptual models part I — A discussion of principles. &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;Journal of Hydrology&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;, 10(3), 282–290. https://doi.org/10.1016/0022-1694(70)90255-6&lt;/span&gt;&lt;/li&gt;
 &lt;li style=&quot; font-family:'Helvetica','arial','freesans','clean','sans-serif'; font-size:14px; color:#333333;&quot; align=&quot;justify&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; line-height:160%;&quot;&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;SCS (1985). Section 4: Hydrology. In &lt;/span&gt;&lt;span style=&quot; font-size:14px; font-style:italic;&quot;&gt;National Engineering Handbook&lt;/span&gt;&lt;span style=&quot; font-size:14px;&quot;&gt;. Washington D.C.: US Department of Agriculture, Soil Conservation Service, Engineering Division.&lt;/span&gt;&lt;/li&gt;

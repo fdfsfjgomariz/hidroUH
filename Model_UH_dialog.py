@@ -29,6 +29,8 @@ from qgis.PyQt import QtWidgets
 
 from PyQt5.QtWidgets import QMessageBox
 
+from PyQt5.QtGui import QIntValidator
+
 #PACOGOM a ver para el filter
 from qgis.core import QgsMapLayerProxyModel
 
@@ -61,6 +63,11 @@ class ModelUHDialog(QtWidgets.QDialog, FORM_CLASS):
         #PACOGOM para adevetencia en el check de optimiza
         self.ch_optimize.stateChanged.connect(self.msg_optimize_checkbox)
         
+        #PACOGOM: configurar el lineedit para entero
+        # Configurar validador para solo permitir números enteros
+        self.lineEdit_interval.setValidator(QIntValidator())
+        
+
     def on_path_changed(self):
         directorio = self.output2.filePath()
         print(f"Directorio seleccionado: {directorio}")
@@ -77,6 +84,3 @@ class ModelUHDialog(QtWidgets.QDialog, FORM_CLASS):
                 )
                 self.ch_optimize.nextCheckState()
        
-        
-        
-        

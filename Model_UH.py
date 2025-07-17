@@ -31,7 +31,6 @@ from .resources import *
 from .Model_UH_dialog import ModelUHDialog
 import os.path
 
-#PACOGOM
 from qgis.core import *
 import random
 
@@ -39,14 +38,13 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#PACOGOM para la tabla
-#from PyQt5.QtWidgets import QTableWidgetItem
+#y para version dist
+import geopandas as gpd
+import networkx as nx
+
+import base64
+
 from qgis.PyQt.QtWidgets import QTableWidgetItem
-
-
-#PACOGOM
-#import ':/plugins/q_scs/funcionesHidro.py'
-
 
 class ModelUH:
     """QGIS Plugin Implementation."""
@@ -200,6 +198,7 @@ class ModelUH:
         # Add the action to the Help menu
         self.iface.pluginHelpMenu().addAction(self.help_action)
         self.help_action.triggered.connect(self.show_help)
+        
 
     #PACOGOM y para finalizar lo anterior Y CAMBIAR POR LA WEB QUE PROCEDA
     @staticmethod
@@ -265,37 +264,60 @@ class ModelUH:
         field = self.dlg.cb_lp.currentText()
         
         
-    #PACOGOM para la tabla
-    def llenar_tabla(self, dataframe):
-        #referencia al objeto
-        tabla = self.dlg.table_results
-        #encabezados y filas:
+    #PACOGOM para la tabla y la figura:
+    
+    def llenar_tabla(self, dataframe,table,colid):
+        # Referencia al objeto
+        tabla = table
+        # Encabezados y filas
         encabezados = dataframe.columns.tolist()
-        datos = dataframe.values.tolist()
-        #configurar columnas
-        tabla.setColumnCount(len(encabezados))
-        tabla.setRowCount(len(datos))
-        tabla.setHorizontalHeaderLabels(encabezados)
-        #filas
+        nombres_filas = dataframe.index.tolist()
+        
+        tabla.setColumnCount(len(encabezados) + 1)
+        tabla.setRowCount(len(dataframe))
+        
+        nombre_indice = colid
+        if dataframe.index.name:
+            nombre_indice = dataframe.index.name
+            
+        tabla.setHorizontalHeaderLabels([nombre_indice] + encabezados)
 
-        #y llenamos la tabla
-        for fila_idx, fila in enumerate(datos):
+        # Llenamos la tabla con datos
+        for fila_idx, fila in enumerate(dataframe.values.tolist()):
+            # Primera columna: nombre de la fila (índice)
+            item_indice = QTableWidgetItem(str(nombres_filas[fila_idx]))
+            tabla.setItem(fila_idx, 0, item_indice)
+            
+            # Resto de columnas: datos del DataFrame
             for columna_idx, valor in enumerate(fila):
                 item = QTableWidgetItem(str(valor))
-                tabla.setItem(fila_idx, columna_idx, item)
+                tabla.setItem(fila_idx, columna_idx + 1, item)
 
+        # Ajustes finales
         tabla.resizeColumnsToContents()
         tabla.horizontalHeader().setStretchLastSection(True)
         tabla.setStyleSheet("QHeaderView::section { background-color: #4CAF50; color: white; }")
-
-        #tabla.horizontalHeader().setSectionResizeMode(QtWidgets.QHeaderView.Stretch)
-        #tabla.setStyleSheet("QHeaderView::section{ background-color: lightblue }")
         
-    #PACOGOM CREAR GRAFICO HIDROGRAMA###################
+        tabla.resizeRowsToContents()
+        tabla.horizontalHeader().setSectionResizeMode(0, QHeaderView.Fixed)
+
+    def load_image(self, path, web_view):
+               
+        with open(path, "rb") as img_file:
+            img_data = img_file.read()
+            img_base64 = base64.b64encode(img_data).decode("utf-8")
+        
+        html_content = f"""
+        <html>
+        <body style="margin:0; display:flex; justify-content:center; align-items:center; height:100vh;">
+            <img src="data:image/png;base64,{img_base64}" style="max-width:100%; max-height:100%;">
+        </body>
+        </html>
+        """
+        
+        web_view.setHtml(html_content)
+        #web_view.setZoomFactor(1.0)
     
-    
-    
- 
     #PACOGOM: ummm pra importar paquetes etc. Lo necsito. Y además el codigo para ejecutar etc que es el process
     def process(self,vlayer):
 
@@ -400,7 +422,21 @@ class ModelUH:
                 h[t:(t+len(p))] = h[t:(t+len(p))] + conv
    
             return([hh*area/(1000*intervalo) for hh in h]) #paso de l/m2 a m3/m2
+            
+        def funModel(p, area, duracion, nc, tc):
+
+            PERDIDAS = funncMod(p, nc)
+   
+            hu = funHUmod(area, tc, duracion)
+            huProp = [h/sum(hu) for h in hu]
+            Pe = np.array(PERDIDAS["Pe"])
+            huConv = funHUconv(Pe, huProp, area, duracion)
+
+            if(len(huConv) > len(Pe)):
+                 huConv = huConv[0:len(Pe)]
         
+            return huConv   
+            
         def funnse(predictions, targets):
             return 1 - (np.sum((targets - predictions) ** 2) / np.sum((targets - np.mean(targets)) ** 2))
     
@@ -409,434 +445,300 @@ class ModelUH:
     
         def funpbias(predictions, targets):
             return (np.sum(targets - predictions) / np.sum(predictions)) * 100
-            
-            
-        #funcion objetivo
-        def objectiveRMSE(params, p, qobs, area, duracion):
-            #K, x = params
-            CN, tc = params
-            
-            PERDIDAS = funncMod(p=p, nc=CN)
-            Pe = np.array(PERDIDAS["Pe"])
-            
-            ##primero el HU
-            hu = funHUmod(area=area, tc=tc, duracion=duracion)
-            huProp = [h/sum(hu) for h in hu]
-            huConv = funHUconv(Pe, huProp, area, duracion)
-            
-            if(len(huConv) > len(Pe)):
-                huConv = huConv[0:len(Pe)]
 
-            f0 = funrmse(np.array(huConv),np.array(qobs))
+        #funcion objetivo
+        def objectiveRMSE(params, p, area, duracion, qobs):
+            #K, x = params
+            nc, tc = params
+            qsim = funModel(p, area, duracion, nc, tc)
+            f0 = funrmse(np.array(qsim),np.array(qobs))
             return f0
 
-        def objectiveNSE(params, p, qobs, area, duracion):
+        def objectiveNSE(params, p, area, duracion, qobs):
             #K, x = params
-            CN, tc = params
-            
-            PERDIDAS = funncMod(p=p, nc=CN)
-            Pe = np.array(PERDIDAS["Pe"])
-            
-            ##primero el HU
-            hu = funHUmod(area=area, tc=tc, duracion=duracion)
-            huProp = [h/sum(hu) for h in hu]
-            huConv = funHUconv(Pe, huProp, area, duracion)
-            
-            if(len(huConv) > len(Pe)):
-                huConv = huConv[0:len(Pe)]
-
-            f0 = funnse(np.array(huConv),np.array(qobs))
+            nc, tc = params
+            qsim = funModel(p, area, duracion, nc, tc)
+            f0 = funnse(np.array(qsim),np.array(qobs))
             return - f0
 
-        #PACOGOM ea prueba a ver        
-        #print(self.dlg.output.filePath())
+        #check
+        #if self.dlg.cb_invector.allowEmptyLayer():
+        #    QMessageBox.information(self.iface.pluginMenu(), "Select layer", 'There is not basin layer')
+        #elif self.dlg.output2.filePath() == '':
+        if self.dlg.output2.filePath() == '':
+           QMessageBox.information(self.iface.pluginMenu(), "Output directory", 'There is not output directory')
+        elif self.dlg.input_P.filePath() == '':
+            QMessageBox.information(self.iface.pluginMenu(), "Input data", 'There is not input precipitation file')
+        elif self.dlg.cb_ID.currentField() == '':
+            QMessageBox.information(self.iface.pluginMenu(), "Required field parameters", 'There is not subbasins ID')
+        elif self.dlg.cb_area.currentField() == '':
+            QMessageBox.information(self.iface.pluginMenu(), "Required field parameters", 'There is not subbasins area')    
+        elif self.dlg.cb_lp.currentField() == '':
+            QMessageBox.information(self.iface.pluginMenu(), "Required field parameters", 'There is not subbasins length flowpath')                
+        elif self.dlg.cb_min_height.currentField() == '':
+            QMessageBox.information(self.iface.pluginMenu(), "Required field parameters", 'There is not subbasins min. height in lenth flowpath')        
+        elif self.dlg.cb_max_height.currentField() == '':
+            QMessageBox.information(self.iface.pluginMenu(), "Required field parameters", 'There is not subbasins max. height in lenth flowpath')             
+        elif self.dlg.cb_cn.currentField() == '':
+            QMessageBox.information(self.iface.pluginMenu(), "Required field parameters", 'There is not subbasins curve number (CN) values')
 
-        if self.dlg.output.filePath() != '' and self.dlg.cb_invector.currentLayer():
+        else:
         
             import os
-            #PACOGOM OK ESTO ES PARA EL ARCHIVO QUE SE EXPORTA
-            if os.path.exists(self.dlg.output.filePath()):
-                
-                shape = self.dlg.cb_invector.currentLayer()
-                ruta = self.dlg.output.filePath()
-                options = QgsVectorFileWriter.SaveVectorOptions()
-                options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteFile
-                options.actionOnExistingFile = QgsVectorFileWriter.CreateOrOverwriteLayer
-                options.actionOnExistingFile = QgsVectorFileWriter.AppendToLayerNoNewFields
-                options.shape = "_".join(shape.name().split(' '))
-                writer = QgsVectorFileWriter.writeAsVectorFormat(shape,ruta,options)
-                layer = QgsVectorLayer(ruta, os.path.basename(ruta), "ogr")
-                provider = layer.dataProvider()
-                
+            
+            duracion = self.dlg.lineEdit_interval.text()            
+            duracion = float(duracion) / 60
+            
+            if not duracion:  # Si está vacío
+                QMessageBox.critical(self.iface.pluginMenu(), "Time interval error", "The time interval field cannot be empty")
+                return
+            
+            try:
+                duracion = int(duracion)
+            except ValueError:
+                QMessageBox.critical(self.iface.pluginMenu(), "Time interval error", "Invalid time interval value")
+
+
+            #VOY A COLOCAR AQUI EL MODELO A VER:--------------
+            #0 VARIABLES GENERICAS###############
+
+            #duracion = 1 # h
+            #workdir = "G:/UNIVERSIDAD/ALONSOsolicitaTRANDIG21/plugin/RESULTADOS2/"
+            
+            if self.dlg.output2.filePath() != '':
+                workdir = self.dlg.output2.filePath()
+            #else:
+            #QMessageBox.information(self,"Optimze stage",workdir)
+           
+            #1. CARGAR LOS DATOS#################
+
+            #1.1. csv de precip y qobs (cambiar por seleccion de archivo):
+            #archivoprec = workdir + "precip.csv"
+            archivoprec = self.dlg.input_P.filePath()
+            codidp = 0
+ 
+            archivoqobs = self.dlg.input_Q.filePath()
+            #colqobs = "qobs"
+            colqobs = 3
+      
+            precip = pd.read_csv(archivoprec)
+            iddate = precip.iloc[:,codidp]
+
+            if self.dlg.input_Q.filePath() != '':
+                qobserved = pd.read_csv(archivoqobs)
+                qobs = qobserved.iloc[:,colqobs].values
+                iddate, qobs
             else:
+                iddate
+
+            #2. VARIABLES DE LA CUENCA Y LINEA FLUJO:###########
             
-                shape = self.dlg.cb_invector.currentLayer()
-                ruta = self.dlg.output.filePath()
-                writer = QgsVectorFileWriter.writeAsVectorFormat(shape,ruta,"UTF-8",shape.crs(),driverName="ESRI Shapefile")
-                layer = QgsVectorLayer(ruta, os.path.basename(ruta), "ogr")
-                provider = layer.dataProvider()
-                
-            #print(ruta)
-            #print(layer) 
-
-            #Parameters index
-
-            L = self.dlg.cb_lp.currentField()
-            A= self.dlg.cb_area.currentField()
-
-            narr = []
-            q1 = []
-            na =[]
-            contador=0
-            #PACOGOM Y DESPUES A PARTIR DE LA L830 METEN CONDICIONALES PARA AÑADIR LOS DATOS A LA NUEVA CAPA 
+            layer = self.dlg.cb_invector.currentLayer()
+            colCN = self.dlg.cb_cn.currentField()
+            colsup = self.dlg.cb_area.currentField()
+            colidbasin = self.dlg.cb_ID.currentField()
+            collen = self.dlg.cb_lp.currentField()
+            colcmax = self.dlg.cb_max_height.currentField()
+            colcmin = self.dlg.cb_min_height.currentField()        
             
-        #VOY A COLOCAR AQUI EL MODELO A VER:--------------
-        #0 VARIABLES GENERICAS###############
+            ###########VOY A PROBAR CON UNA VERSION SEMIDISTRIBUIDA:
+            subbasins = pd.DataFrame([feat.attributes() for feat in layer.getFeatures()],columns=[field.name() for field in layer.fields()])
 
-        duracion = 1 # h
-        #workdir = "G:/UNIVERSIDAD/ALONSOsolicitaTRANDIG21/plugin/RESULTADOS2/"
-        
-        if self.dlg.output2.filePath() != '':
-            workdir = self.dlg.output2.filePath()
-        #else:
-        #QMessageBox.information(self,"Optimze stage",workdir)
-       
-        #1. CARGAR LOS DATOS#################
+            # Network
+            G = nx.DiGraph()
+            for _, row in subbasins.iterrows():
+                G.add_node(row[colidbasin])
+                if row['Downstream'] not in (None, -1):
+                    # Evitar la salida principal
+                    G.add_edge(row[colidbasin], row['Downstream'])
 
-        #1.1. csv de precip y qobs (cambiar por seleccion de archivo):
-        #archivoprec = workdir + "precip.csv"
-        archivoprec = self.dlg.input_P.filePath()
-        #colp = "P1"
-        colp = 3
-        codidp = 0
-        
-        #archivoprec = self.dlg.input_P.currentLayer()
-        
-        #archivoqobs = workdir + "hidrograma.csv"
-        archivoqobs = self.dlg.input_Q.filePath()
-        #colqobs = "qobs"
-        colqobs = 3
-  
-        precip = pd.read_csv(archivoprec)
-        iddate = precip.iloc[:,codidp]
-        p = precip.iloc[:,colp].values
+            subbasins_order = list(nx.topological_sort(G))
+            subbasin_last = subbasins_order[-1]
+            # Visualización de la red
+            nx.draw(G, with_labels=True, node_color='lightblue', node_size=800)
+            plt.title("Network")
 
-        if self.dlg.input_Q.filePath() != '':
-            qobserved = pd.read_csv(archivoqobs)
-            qobs = qobserved.iloc[:,colqobs].values
-            iddate, qobs, p = zip(*sorted(zip(iddate, qobs, p)))
-        else:
-            iddate, p = zip(*sorted(zip(iddate, p)))
-
-        #2. VARIABLES DE LA CUENCA Y LINEA FLUJO:###########
-
-        #cambia por carga sele
-        #archivocuenca = workdir + "basin.shp"
-        #colCN = "cn"
-        #colsup = "supkm"
-        #colidbasin = "idbasin"
-        #y el resto de columnas
-        
-        layer = self.dlg.cb_invector.currentLayer()
-        colCN = self.dlg.cb_cn.currentField()
-        colsup = self.dlg.cb_area.currentField()
-        colidbasin = self.dlg.cb_ID.currentField()
-        collen = self.dlg.cb_lp.currentField()
-        colcmax = self.dlg.cb_max_height.currentField()
-        colcmin = self.dlg.cb_min_height.currentField()        
-    
-        CN = []
-        area = []
-        idbasin = []
-        lengthkm = []
-        cmax = []
-        cmin = []
-        
-        for feature in layer.getFeatures():
-            CN = feature[colCN]
-            area = feature[colsup]
-            idbasin = feature[colidbasin]
-            lengthkm = feature[collen]
-            cmax = feature[colcmax]
-            cmin = feature[colcmin]
-
-        #3.  COMPONENTE PERDIDAS###############
-
-        #ok tendre que cambiar en funcion de la longitud de registros
-
-        PERDIDAS = funncMod(p=p, nc=CN)
-
-        # Crear figura y ejes
-        plt.figure(figsize=(10, 6))
-        ax = PERDIDAS[["Ia","F","Pe"]].plot(kind='bar', stacked=True, color=['red', 'green', 'blue'])
-
-        # Títulos y leyenda
-        plt.title('Results of run model. CN loss method')
-        plt.xlabel('Time')
-
-        # Mostrar solo una etiqueta cada 5 posiciones
-        ax.set_xticks(range(0, len(PERDIDAS), 5))
-        ax.set_xticklabels(PERDIDAS.index[::5], rotation=45, ha='right')
-
-        plt.ylabel('Precip. depth (mm)')
-        #plt.grid(True, linestyle='--', alpha=0.6)
-
-        # Calcular sumas totales
-        sums = PERDIDAS[["P","Ia","F","Pe"]].sum()
-        # Crear una tabla con las sumas
-        plt.table(cellText=[sums.values.round(2)],
-            colLabels=sums.index,
-            cellLoc='center',
-            loc='bottom',
-            bbox=[0.18, -0.4, 0.6, 0.2])
-
-        # Guardar imagen temporal
-        #temp_dir = tempfile.gettempdir()
-        temp_dir = workdir
-        imagen_path = os.path.join(temp_dir, 'CNloss.png')
-
-        plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
-        plt.close()
-
-        # Mostrar en QGIS #SOLO FUNIONARA EN QGIS
-        dialog = QDialog()
-        dialog.setWindowTitle('Result CN loss method')
-        layout = QVBoxLayout()
-        label = QLabel()
-        label.setPixmap(QPixmap(imagen_path))
-        layout.addWidget(label)
-        dialog.setLayout(layout)
-        dialog.exec_()
-
-        #4.  HIDROGRAMA###############
-
-        desnivel = cmax - cmin
-        pendiente = desnivel/(1000*lengthkm)
-        tc = 0.06628 * lengthkm**0.77 / pendiente**0.385
-
-        ##primero el HU
-        hu = funHUmod(area=area, tc=tc, duracion=duracion)
-        huProp = [h/sum(hu) for h in hu]
-        Pe = np.array(PERDIDAS["Pe"])
-        huConv = funHUconv(Pe, huProp, area, duracion)
-
-        if(len(huConv) > len(Pe)):
-            huConv = huConv[0:len(Pe)]
-
-        #exportar tabla final:
-        PERDIDAS2 = PERDIDAS.copy()
-        PERDIDAS2['Qsim'] = huConv
-        csv_path = os.path.join(temp_dir, 'model_results.csv')
-        PERDIDAS2.to_csv(csv_path)
-
-        #Y RESUMEN DE RESULTADOS:
-        resultsres = {}
-        resultsres['idbasin'] = idbasin
-        resultsres.update(PERDIDAS.sum())
-        resultsres['PeakSim'] = max(huConv)
-
-        if self.dlg.input_Q.filePath() != '':
-            resultsres['PeakObs'] = max(qobs)
-            resultsres['nse'] = funnse(np.array(huConv),np.array(qobs))
-            resultsres['rmse'] = funrmse(np.array(huConv),np.array(qobs))
-            resultsres['pbias'] = funpbias(np.array(huConv),np.array(qobs))
-
-        resultsres = pd.DataFrame([resultsres])
-        resultsres_path = os.path.join(temp_dir, 'model_summary.csv')
-        resultsres.to_csv(resultsres_path, index=False)
-        
-        #PACOGOM a ver si puedo sacar la tabla:
-        self.llenar_tabla(resultsres.round(decimals=4))    
-        
-
-
-        #GRAFICO INCLUYENDO RESUUMEEN:
-
-        # Crear figura y ejes
-        plt.figure(figsize=(10, 6))
-        plt.plot(iddate,huConv,color='blue',label='Simulated outflow',linestyle='-',)
-        if self.dlg.input_Q.filePath() != '':
-            plt.plot(iddate,qobs,color='black', label='Simulated outflow', linestyle='-',marker='o',markersize=3,alpha=0.7)
-        #else:
-        plt.title('Results for run')
-        plt.xlabel('Time')
-        plt.ylabel('Flow (m3/s)')
-        plt.grid(True, linestyle='--', alpha=0.6)
-        plt.legend()
-
-        #temp_dir = tempfile.gettempdir()
-        temp_dir = workdir
-        imagen_path = os.path.join(temp_dir, 'QsimUH.png')
-        plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
-        plt.close()
-
-        # Mostrar en QGIS #SOLO FUNIONARA EN QGIS
-        dialog = QDialog()
-        dialog.setWindowTitle('Result UH flow')
-        layout = QVBoxLayout()
-        label = QLabel()
-        label.setPixmap(QPixmap(imagen_path))
-        layout.addWidget(label)
-        dialog.setLayout(layout)
-        dialog.exec_()
-        
-        #6.  OPTIMIZACION###############
-        
-        if self.dlg.ch_optimize.isChecked():
-
-            f0ej = "nse" #TIPO DE OPTIMIZAION    
-            
-            # Configuración de la optimización
-            #initial_guess = [2.0, 0.2]  # Valores iniciales [K, x]
-            #bounds = [
-            #    (0.1, 100),   # Rango para K (K > 0)
-            #    (0.0, 0.5)    # Rango para x (0 ≤ x ≤ 0.5)
-            #]
-            
-            bounds = [(20, 99), (1,10)] #CN Y TLAG
-
-
-            initial_guess = [50, 4]  # Valores iniciales
-
-            if (f0ej == "rmse"):
-                result = scipy.optimize.minimize(
-                    fun=objectiveRMSE,
-                    x0=initial_guess,
-                    args=(p, qobs, area, duracion),
-                    method='L-BFGS-B',  # Método que soporta límites
-                    bounds=bounds,
-                    options={'maxiter': 1, 'disp': True}
-                )
-            else:
-                result = scipy.optimize.minimize(
-                    fun=objectiveNSE,
-                    x0=initial_guess,
-                    args=(p, qobs, area, duracion),
-                    method='L-BFGS-B',  # Método que soporta límites
-                    bounds=bounds,
-                    options={'maxiter': 1, 'disp': True}
-                )        
-            
-            # Resultados
-            if result.success:
-            #    K_opt, x_opt = result.x
-            #    print(f"Parámetros óptimos: K = {K_opt:.2f} h, x = {x_opt:.2f}")
-            #    print(f"RMSE mínimo: {result.fun:.2f} m³/s")
-                NC_opt = result.x
-            else:
-                print("Fail optimization:", result.message)
-                
-            #print(NC_opt)        
-            
-
-            ######EJECUTEMOS EL MODELO FINAL CON TODOS LOS PARAMETROS OPTIMIZADOS########
-
-            #3.  COMPONENTE PERDIDAS###############
-
-            #ok tendre que cambiar en funcion de la longitud de registros
-
-            PERDIDASopt = funHidro.ncMod(p=p, nc=NC_opt[0,])
-
-            # Crear figura y ejes
-            plt.figure(figsize=(10, 6))
-            ax = PERDIDASopt[["Ia","F","Pe"]].plot(kind='bar', stacked=True, color=['red', 'green', 'blue'])
-
-            # Títulos y leyenda
-            plt.title('Results of run optimized model. CN loss method')
-            plt.xlabel('Time')
-
-            # Mostrar solo una etiqueta cada 5 posiciones
-            ax.set_xticks(range(0, len(PERDIDASopt), 5))
-            ax.set_xticklabels(PERDIDASopt.index[::5], rotation=45, ha='right')
-
-            plt.ylabel('Precip. depth (mm)')
-            #plt.grid(True, linestyle='--', alpha=0.6)
-
-            # Calcular sumas totales
-            sums = PERDIDASopt[["P","Ia","F","Pe"]].sum()
-            # Crear una tabla con las sumas
-            plt.table(cellText=[sums.values.round(2)],
-                     colLabels=sums.index,
-                     cellLoc='center',
-                     loc='bottom',
-                     bbox=[0.18, -0.4, 0.6, 0.2])
-
-            #plt.show()
-
-            # Guardar imagen temporal
-            #temp_dir = tempfile.gettempdir()
             temp_dir = workdir
-            imagen_path = os.path.join(temp_dir, 'CNlossOpt.png')
-
+            imagen_path = os.path.join(temp_dir, 'NETWORK.png')
             plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
             plt.close()
+            
+            #cont
+            resultados = {}
+            resultsres = pd.DataFrame()
+            resultsfull = {}           
+          
+            for subbasin_id in subbasins_order:
 
-            # Mostrar en QGIS #SOLO FUNIONARA EN QGIS
-            dialog = QDialog()
-            dialog.setWindowTitle('Result CN loss method')
-            layout = QVBoxLayout()
-            label = QLabel()
-            label.setPixmap(QPixmap(imagen_path))
-            layout.addWidget(label)
-            dialog.setLayout(layout)
-            dialog.exec_()
+                afluentes = list(G.predecessors(subbasin_id))
+                entradas = [resultados[afluente] for afluente in afluentes]
+                entradas2 = [sum(x) for x in zip(*entradas)]
+
+                p = precip.loc[:,subbasin_id].values
+
+                subbasin_values = subbasins[subbasins[colidbasin] == subbasin_id]
+
+                #NC value based on correction:
+                CN = subbasin_values.iloc[0][colCN]
+
+                #correccion
+                if self.dlg.rb_normal.isChecked():
+                    CNt = CN
+                else:
+                    if self.dlg.rb_dry.isChecked():
+                        CNt = (4.2 * CN) / (10 - (0.058 * CN))
+                    elif self.dlg.rb_wet.isChecked():
+                        CNt = (23 * CN) / (10 + (0.13 * CN))
+
+                #time of concentration
+                desnivel = subbasin_values.iloc[0][colcmax] - subbasin_values.iloc[0][colcmin]
+                pendiente = desnivel/(1000*subbasin_values.iloc[0][collen])
+                #tc2 = 0.06628 * subbasin_values.iloc[0][collen]**0.77 / pendiente**0.385 
+                tc2 = 0.3 * (subbasin_values.iloc[0][collen] / pendiente**0.25)**0.76
+                
+                area = subbasin_values.iloc[0][colsup]
+
+                #MODELO###########
+
+                #CN loss--------------------------------------
+                PERDIDASopt = funncMod(p=p, nc=CNt)
+
+                # Figure
+                plt.figure(figsize=(10, 6))
+                ax = PERDIDASopt[["Ia","F","Pe"]].plot(kind='bar', stacked=True, color=['red', 'green', 'blue'])
+
+                plt.title(f"Results of CN loss. Basin: {subbasin_id}; NC: {CNt}")
+                plt.xlabel('Time')
+
+                ax.set_xticks(range(0, len(PERDIDASopt), 5))
+                ax.set_xticklabels(PERDIDASopt.index[::5], rotation=45, ha='right')
+
+                plt.ylabel('Precip. depth (mm)')
+
+                sums = PERDIDASopt[["P","Ia","F","Pe"]].sum()
+                plt.table(cellText=[sums.values.round(2)],
+                            colLabels=sums.index,
+                            cellLoc='center',
+                            loc='bottom',
+                            bbox=[0.18, -0.4, 0.6, 0.2])
+
+                temp_dir = workdir
+                imagen_path = os.path.join(temp_dir, f"{subbasin_id}_cnloss.png")
+
+                plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
+                plt.close()
+
+                #HU conversion precipitation----------------------
+                hu = funHUmod(area, tc2, duracion)
+                huProp = [h/sum(hu) for h in hu]
+                Pe = np.array(PERDIDASopt["Pe"])
+                huConv = funHUconv(Pe, huProp, area, duracion)
+
+                if(len(huConv) > len(Pe)):
+                    huConv = huConv[0:len(Pe)]
+
+                if(len(np.array(entradas2)) > 0):
+                    totalUH = np.array(huConv) + np.array(entradas2)
+                else:
+                    totalUH = huConv
+                            
+                #graph
+                plt.figure(figsize=(10, 6))
+                plt.plot(iddate,totalUH,color='blue',label='Simulated outflow',linestyle='-')
+                plt.title(f"Result hidrogram. Basin: {subbasin_id}")
+                plt.xlabel('Time')
+                plt.ylabel('Flow (m3/s)')
+                plt.grid(True, linestyle='--', alpha=0.6)
+                plt.legend()
+                temp_dir = workdir
+                imagen_path = os.path.join(temp_dir, f"{subbasin_id}_hidrogram.png")
+
+                #plt.show()
+                plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
+                plt.close()
+
+                #results for integration
+                resultados[subbasin_id] = totalUH
+
+                resultsfull[f"{subbasin_id}_P"] = np.array(PERDIDASopt["P"])
+                resultsfull[f"{subbasin_id}_Ia"] = np.array(PERDIDASopt["Ia"])
+                resultsfull[f"{subbasin_id}_F"] = np.array(PERDIDASopt["F"])
+                resultsfull[f"{subbasin_id}_Pe"] = np.array(PERDIDASopt["Pe"])
+                resultsfull[f"{subbasin_id}_Qsim"] = totalUH
+
+                #print(resultsfull)
+                
+                sums['PeakSim'] = max(totalUH)
+                sums2 = pd.DataFrame(data=sums)
+                sums2.columns = [subbasin_id]
+                resultsres = pd.concat([resultsres, sums2], axis=1)
+
+            #export resum
+            resultsfull2 = pd.DataFrame(resultsfull)
+            csv_path = os.path.join(temp_dir, 'RESULTS_details.csv')
+            resultsfull2.to_csv(csv_path)
+
+            #if exits observed q in final subbasin
+            if (archivoqobs is not None):
+                resultsres.at['PeakObs', subbasin_last] = max(qobs)
+                
+                qsim = resultsfull2[f"{subbasin_last}_Qsim"]
+
+                resultsres.at['rmse', subbasin_last] = funrmse(np.array(qsim),np.array(qobs))
+                resultsres.at['pbias', subbasin_last] = funpbias(np.array(qsim),np.array(qobs))
+                resultsres.at['nse', subbasin_last] = funnse(np.array(qsim),np.array(qobs))
+
+                #además creará la figura final para la última cuenca
+                #graph
+                plt.plot(iddate,qsim,color='blue',label='Simulated outflow',linestyle='-')
+                plt.plot(iddate,qobs,color='black', label='Observed outflow', linestyle='-',marker='o',markersize=3,alpha=0.7)
+                plt.title(f"Result hidrogram. Basin: {subbasin_last}")
+                plt.xlabel('Time')
+                plt.ylabel('Flow (m3/s)')
+                plt.grid(True, linestyle='--', alpha=0.6)
+                plt.legend()
+                
+                temp_dir = workdir
+                imagen_path = os.path.join(temp_dir, f"{subbasin_last}_hidrogram.png")
+                #plt.show()
+                plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
+                plt.close()
+            
+            resultsres2 = pd.DataFrame.transpose(resultsres)
+            csv_path = os.path.join(temp_dir, 'RESULTS_resum.csv')
+            resultsres2.to_csv(csv_path)
+ 
+
+            ####OPTIMIZACION
 
 
 
 
+            #RESULTS##################################################
+            #tables
+            self.llenar_tabla(resultsres2.round(decimals=4),self.dlg.table_results,"Basin")
+            self.llenar_tabla(resultsfull2.round(decimals=4),self.dlg.table_results_2,"id")
+            
+            imagen_path = os.path.join(workdir, f"{subbasin_last}_hidrogram.png")
+
+            self.load_image(imagen_path, self.dlg.figView)
+            
+            #access to results
+            self.dlg.tabWidget.setCurrentIndex(1)
 
 
 
 
-        
-        
+            
+            
 
-###OK ESTO PARA AÑADIR A LA CAPA CUENCA LAS COSAS:####VER EN QGIS
+            #QMessageBox.information(self.iface.pluginMenu(), "Veamos los valores", f"Valor subbasin_id: {subbasin_id}, ;;;;;;; resultados: {resultsres}, tipo: {type(resultsres)}")
+                
+                
+                
+                
 
-# #ummm vamos a meter en la capa las cosas:
-# layer.startEditing()
-    
-# if layer.dataProvider().fieldNameIndex("P") == -1:
-#     layer.dataProvider().addAttributes([QgsField("P", QVariant.Double)])
-# if layer.dataProvider().fieldNameIndex("Pe") == -1:
-#     layer.dataProvider().addAttributes([QgsField("Pe", QVariant.Double)])
-# if layer.dataProvider().fieldNameIndex("Ia") == -1:
-#     layer.dataProvider().addAttributes([QgsField("Ia", QVariant.Double)])
-# if layer.dataProvider().fieldNameIndex("F") == -1:
-#     layer.dataProvider().addAttributes([QgsField("F", QVariant.Double)])
-# if layer.dataProvider().fieldNameIndex("PeakSim") == -1:
-#     layer.dataProvider().addAttributes([QgsField("PeakSim", QVariant.Double)])
-
-# layer.updateFields()
-
-# id_P= layer.dataProvider().fieldNameIndex("P")
-# id_Pe= layer.dataProvider().fieldNameIndex("Pe")
-# id_Ia= layer.dataProvider().fieldNameIndex("Ia")
-# id_F= layer.dataProvider().fieldNameIndex("F")
-# id_PeakSim= layer.dataProvider().fieldNameIndex("PeakSim")
-
-# for feature in layer.getFeatures():
-#     layer.changeAttributeValue(feature.id(), id_P, PERDIDAS.P.max())
-#     layer.changeAttributeValue(feature.id(), id_Pe, PERDIDAS.Pe.max())
-#     layer.changeAttributeValue(feature.id(), id_Ia, PERDIDAS.Ia.max())
-#     layer.changeAttributeValue(feature.id(), id_F, PERDIDAS.F.max())
-#     layer.changeAttributeValue(feature.id(), id_PeakSim, huConv.max())
-
-# layer.commitChanges()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            #RECUERDA PONER AQUI EL FINAL RESUMEN COMO EL GRAFICO FINAL DE HIDRO INCLUYENDO OBS
 
 
 
@@ -864,10 +766,6 @@ class ModelUH:
         vlayer = self.dlg.cb_invector.currentLayer()
         #print (vlayer)
         #
-        self.dlg.output.setStorageMode(self.dlg.output.SaveFile)
-        self.dlg.output.setConfirmOverwrite(True)
-        self.dlg.output.setFilter(self.tr("ESRI Shapefile (*.shp *.SHP)"))        
-        #
         self.dlg.cb_lp.setLayer(vlayer)
         self.dlg.cb_area.setLayer(vlayer)
         self.dlg.cb_ID.setLayer(vlayer)#ID DE LAS SUBCUENCAS
@@ -883,7 +781,7 @@ class ModelUH:
         self.dlg.cb_min_height.fieldChanged.connect(self.check_box_able)
         self.dlg.cb_cn.fieldChanged.connect(self.check_box_able)
         
-        #PACOGOM y ver para ccon
+        #PACOGOM y ver para con
         self.dlg.input_P.setFilter(self.tr("CSV files (*.csv *.CSV)"))
         self.dlg.input_Q.setFilter(self.tr("CSV files (*.csv *.CSV)"))
 
