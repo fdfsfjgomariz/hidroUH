@@ -59,10 +59,23 @@ class ModelUHDialog(QtWidgets.QDialog, FORM_CLASS):
 
         self.lineEdit_interval.setValidator(QIntValidator())
         
-
+        #routing:
+        self.ch_routing.toggled.connect(self.cb_lc.setEnabled)    
+        self.cb_lc.setEnabled(self.ch_routing.isChecked())
+        self.cb_lc.setLayer(self.cb_invector.currentLayer())
+        self.ch_routing.toggled.connect(self.cb_minl.setEnabled)    
+        self.cb_minl.setEnabled(self.ch_routing.isChecked())
+        self.cb_minl.setLayer(self.cb_invector.currentLayer())
+        self.ch_routing.toggled.connect(self.cb_maxl.setEnabled)    
+        self.cb_maxl.setEnabled(self.ch_routing.isChecked())
+        self.cb_maxl.setLayer(self.cb_invector.currentLayer())
+        self.ch_routing.toggled.connect(self.cb_X.setEnabled)    
+        self.cb_X.setEnabled(self.ch_routing.isChecked())
+        self.cb_X.setLayer(self.cb_invector.currentLayer())
+        
     def on_path_changed(self):
         directorio = self.output2.filePath()
-        print(f"Directorio seleccionado: {directorio}")
+        print(f"Selected directory: {directorio}")
 
     def msg_optimize_checkbox(self, state):
         if state == 2:
@@ -74,4 +87,4 @@ class ModelUHDialog(QtWidgets.QDialog, FORM_CLASS):
                     "To perform the optimization it is mandatory to include a flow file with the same time window as the precipitation"
                 )
                 self.ch_optimize.nextCheckState()
-       
+
