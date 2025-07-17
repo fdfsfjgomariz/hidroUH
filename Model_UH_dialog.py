@@ -49,22 +49,14 @@ class ModelUHDialog(QtWidgets.QDialog, FORM_CLASS):
         # http://qt-project.org/doc/qt-4.8/designer-using-a-ui-file.html
         # #widgets-and-dialogs-with-auto-connect
         self.setupUi(self)
-        
-        #PACOGOM a ver para el filter
+      
         self.cb_invector.setFilters(QgsMapLayerProxyModel.HasGeometry)
         
-        
-        #PACOGOM para output2
-        # Configurar el QgsFileWidget para seleccionar directorios
         self.output2.setStorageMode(self.output2.StorageMode.GetDirectory)
-        # Conectar señal
         self.output2.fileChanged.connect(self.on_path_changed)
         
-        #PACOGOM para adevetencia en el check de optimiza
         self.ch_optimize.stateChanged.connect(self.msg_optimize_checkbox)
-        
-        #PACOGOM: configurar el lineedit para entero
-        # Configurar validador para solo permitir números enteros
+
         self.lineEdit_interval.setValidator(QIntValidator())
         
 
@@ -72,7 +64,6 @@ class ModelUHDialog(QtWidgets.QDialog, FORM_CLASS):
         directorio = self.output2.filePath()
         print(f"Directorio seleccionado: {directorio}")
 
-    #Para el check de optimizacion
     def msg_optimize_checkbox(self, state):
         if state == 2:
         

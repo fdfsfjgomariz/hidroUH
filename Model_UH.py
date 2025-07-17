@@ -38,7 +38,6 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
-#y para version dist
 import geopandas as gpd
 import networkx as nx
 
@@ -72,15 +71,10 @@ class ModelUH:
         if os.path.exists(locale_path):
             self.translator = QTranslator()
             self.translator.load(locale_path)
-            #PACOGOM usado para translators. Si lo uso mira las siguientes lineas del otro
-            #QCoreApplication.installTranslator(self.translator)
-        # Declare instance attributes
+
         self.actions = []
         self.menu = self.tr(u'&Model UH')
 
-        # Check if plugin was started the first time in current QGIS session
-        # Must be set in initGui() to survive plugin reloads
-        #PACOGOM este no lo incluye y en cambio si: self.toolbar = self.iface.addToolBar(u'Tc Tlag')
         self.first_start = None
         
 
@@ -186,21 +180,16 @@ class ModelUH:
 
         # will be set False in run()
         self.first_start = True
-        
-        
-        #PACOGOM para ver ayuda en qgis en ayuda:
+
         self.help_action = QAction(
             QIcon("testplug:icon.png"),
             self.tr("Test Plugin Model UH"),
             self.iface.mainWindow()
         )
-        #PACOGOM
-        # Add the action to the Help menu
+
         self.iface.pluginHelpMenu().addAction(self.help_action)
         self.help_action.triggered.connect(self.show_help)
         
-
-    #PACOGOM y para finalizar lo anterior Y CAMBIAR POR LA WEB QUE PROCEDA
     @staticmethod
     def show_help():
         """ Open the online help. """
@@ -213,12 +202,7 @@ class ModelUH:
                 self.tr(u'&Model UH'),
                 action)
             self.iface.removeToolBarIcon(action)
-            
-        # PACOGOM remove the toolbar incluir si incluyo el de la linea 36
-        #del self.toolbar 
-        
-        
-    #PACOGOM OK aqui va lo de la seleccion de los layers en este def
+
     def select_layer_fields(self, vlayer):
     
         self.dlg.cb_ID.setLayer(vlayer)
@@ -234,7 +218,6 @@ class ModelUH:
 
         field = self.dlg.cb_lp.setLayer(vlayer)
         
-    #PACOGOM OK aqui va lo de la seleccion de los layers en este def complementario al anterior. No obstante creo que no es necesario porque veo que es para los check
     def check_box_able(self):
 
         colID = self.dlg.cb_ID.currentField()    
@@ -258,18 +241,14 @@ class ModelUH:
             self.dlg.cb_minl.setEnabled(False)
             self.dlg.cb_maxl.setEnabled(False)            
  
-    #PACOGOM
     def sql_funtion(self):
         vlayer = self.dlg.cb_invector.currentLayer()
         field = self.dlg.cb_lp.currentText()
         
-        
-    #PACOGOM para la tabla y la figura:
     
     def llenar_tabla(self, dataframe,table,colid):
-        # Referencia al objeto
+
         tabla = table
-        # Encabezados y filas
         encabezados = dataframe.columns.tolist()
         nombres_filas = dataframe.index.tolist()
         
@@ -282,18 +261,14 @@ class ModelUH:
             
         tabla.setHorizontalHeaderLabels([nombre_indice] + encabezados)
 
-        # Llenamos la tabla con datos
         for fila_idx, fila in enumerate(dataframe.values.tolist()):
-            # Primera columna: nombre de la fila (índice)
             item_indice = QTableWidgetItem(str(nombres_filas[fila_idx]))
             tabla.setItem(fila_idx, 0, item_indice)
             
-            # Resto de columnas: datos del DataFrame
             for columna_idx, valor in enumerate(fila):
                 item = QTableWidgetItem(str(valor))
                 tabla.setItem(fila_idx, columna_idx + 1, item)
 
-        # Ajustes finales
         tabla.resizeColumnsToContents()
         tabla.horizontalHeader().setStretchLastSection(True)
         tabla.setStyleSheet("QHeaderView::section { background-color: #4CAF50; color: white; }")
@@ -316,9 +291,7 @@ class ModelUH:
         """
         
         web_view.setHtml(html_content)
-        #web_view.setZoomFactor(1.0)
     
-    #PACOGOM: ummm pra importar paquetes etc. Lo necsito. Y además el codigo para ejecutar etc que es el process
     def process(self,vlayer):
 
         try:
@@ -339,7 +312,6 @@ class ModelUH:
         except:
             pip.main(['install', 'numpy'])
             
-        #PACOGOM y mias:
         try:
             import tempfile
         except:
@@ -376,17 +348,12 @@ class ModelUH:
             Ia = 0.2*S
             PeTot = ((np.sum(p) - 0.2*S)**2)/(np.sum(p) + 0.8*S)
             Fa = np.sum(p)- (Ia+PeTot) 
-            #print(Ia, PeTot, Fa )
             P_ac = np.cumsum(p)
             Ia_ac, Pe_ac, F_ac = [np.nan]*len(p),  [np.nan]*len(p), [np.nan]*len(p)
             for t in range(len(p)):
                 Ia_ac[t] = P_ac[t] if P_ac[t]<Ia  else Ia   
                 Pe_ac[t]=( (P_ac[t]-Ia_ac[t])**2) / (P_ac[t] + S -Ia_ac[t])
                 F_ac[t]=P_ac[t]-(Pe_ac[t]+Ia_ac[t])
-                #print(P_ac)
-            #print(Ia_ac)
-            #print(F_ac)
-            #print(Pe_ac)
             Pe = [Pe_ac[0]];Pe.extend(np.diff(Pe_ac))
             F = [F_ac[0]]; F.extend(np.diff(F_ac))
             Ia = [Ia_ac[0]]; Ia.extend(np.diff(Ia_ac))
@@ -394,16 +361,16 @@ class ModelUH:
             return(pd.DataFrame({"P":p, "Ia":Ia, "F":F, "Pe":Pe}))
 
         def funHUmod(area:float,tc:float, duracion:int, dt:int=30, prop:bool=False):
-            tp = duracion/2 + 0.35*tc                         # horas
-            qp = 0.208 * area /tp                             # m3/s 
-            tb = 2.67* tp                                     # horas
+            tp = duracion/2 + 0.35*tc
+            qp = 0.208 * area /tp
+            tb = 2.67* tp
             q = []
             pasos = round(tb*60)
-            for i in range(pasos):                            # Cálculo minuto a minuto 
-                t=(i-1)/60                                    # Tiempo en horas
-                if t<=tp: q.append(t*qp/tp)                   # Cálculo q en la rama ascendente del HU
-                if t>tp:  q.append(qp - (t-tp)*qp/(tb-tp))    # Cálculo q en la rama descendente del HU
-            q = [qq*60 for qq in q]                           # Paso del caudal de m3/seg a m3/min
+            for i in range(pasos):
+                t=(i-1)/60
+                if t<=tp: q.append(t*qp/tp)
+                if t>tp:  q.append(qp - (t-tp)*qp/(tb-tp))
+            q = [qq*60 for qq in q]
             qcum = []
             for i in range(0,len(q),dt): 
                 qcum.append(sum(q[i:i+dt]))
@@ -414,14 +381,14 @@ class ModelUH:
             return(qprop)
 
         def funHUconv(p, hu, area, intervalo):
-            area = area * 1000000         # paso el área a m2
-            intervalo = intervalo * 3600  # paso el intervalo a segundos
+            area = area * 1000000
+            intervalo = intervalo * 3600
             h = [0] * (len(p)+len(hu)-1)
             for t in range(len(hu)): 
                 conv = hu[t] * p
                 h[t:(t+len(p))] = h[t:(t+len(p))] + conv
    
-            return([hh*area/(1000*intervalo) for hh in h]) #paso de l/m2 a m3/m2
+            return([hh*area/(1000*intervalo) for hh in h])
             
         def funModel(p, area, duracion, nc, tc):
 
@@ -446,7 +413,6 @@ class ModelUH:
         def funpbias(predictions, targets):
             return (np.sum(targets - predictions) / np.sum(predictions)) * 100
 
-        #funcion objetivo
         def objectiveRMSE(params, p, area, duracion, qobs):
             #K, x = params
             nc, tc = params
@@ -461,10 +427,6 @@ class ModelUH:
             f0 = funnse(np.array(qsim),np.array(qobs))
             return - f0
 
-        #check
-        #if self.dlg.cb_invector.allowEmptyLayer():
-        #    QMessageBox.information(self.iface.pluginMenu(), "Select layer", 'There is not basin layer')
-        #elif self.dlg.output2.filePath() == '':
         if self.dlg.output2.filePath() == '':
            QMessageBox.information(self.iface.pluginMenu(), "Output directory", 'There is not output directory')
         elif self.dlg.input_P.filePath() == '':
@@ -489,7 +451,7 @@ class ModelUH:
             duracion = self.dlg.lineEdit_interval.text()            
             duracion = float(duracion) / 60
             
-            if not duracion:  # Si está vacío
+            if not duracion:
                 QMessageBox.critical(self.iface.pluginMenu(), "Time interval error", "The time interval field cannot be empty")
                 return
             
@@ -498,27 +460,14 @@ class ModelUH:
             except ValueError:
                 QMessageBox.critical(self.iface.pluginMenu(), "Time interval error", "Invalid time interval value")
 
-
-            #VOY A COLOCAR AQUI EL MODELO A VER:--------------
-            #0 VARIABLES GENERICAS###############
-
-            #duracion = 1 # h
-            #workdir = "G:/UNIVERSIDAD/ALONSOsolicitaTRANDIG21/plugin/RESULTADOS2/"
             
             if self.dlg.output2.filePath() != '':
                 workdir = self.dlg.output2.filePath()
-            #else:
-            #QMessageBox.information(self,"Optimze stage",workdir)
-           
-            #1. CARGAR LOS DATOS#################
 
-            #1.1. csv de precip y qobs (cambiar por seleccion de archivo):
-            #archivoprec = workdir + "precip.csv"
             archivoprec = self.dlg.input_P.filePath()
             codidp = 0
  
             archivoqobs = self.dlg.input_Q.filePath()
-            #colqobs = "qobs"
             colqobs = 3
       
             precip = pd.read_csv(archivoprec)
@@ -531,7 +480,6 @@ class ModelUH:
             else:
                 iddate
 
-            #2. VARIABLES DE LA CUENCA Y LINEA FLUJO:###########
             
             layer = self.dlg.cb_invector.currentLayer()
             colCN = self.dlg.cb_cn.currentField()
@@ -541,20 +489,16 @@ class ModelUH:
             colcmax = self.dlg.cb_max_height.currentField()
             colcmin = self.dlg.cb_min_height.currentField()        
             
-            ###########VOY A PROBAR CON UNA VERSION SEMIDISTRIBUIDA:
             subbasins = pd.DataFrame([feat.attributes() for feat in layer.getFeatures()],columns=[field.name() for field in layer.fields()])
 
-            # Network
             G = nx.DiGraph()
             for _, row in subbasins.iterrows():
                 G.add_node(row[colidbasin])
                 if row['Downstream'] not in (None, -1):
-                    # Evitar la salida principal
                     G.add_edge(row[colidbasin], row['Downstream'])
 
             subbasins_order = list(nx.topological_sort(G))
             subbasin_last = subbasins_order[-1]
-            # Visualización de la red
             nx.draw(G, with_labels=True, node_color='lightblue', node_size=800)
             plt.title("Network")
 
@@ -562,8 +506,7 @@ class ModelUH:
             imagen_path = os.path.join(temp_dir, 'NETWORK.png')
             plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
             plt.close()
-            
-            #cont
+
             resultados = {}
             resultsres = pd.DataFrame()
             resultsfull = {}           
@@ -578,10 +521,8 @@ class ModelUH:
 
                 subbasin_values = subbasins[subbasins[colidbasin] == subbasin_id]
 
-                #NC value based on correction:
                 CN = subbasin_values.iloc[0][colCN]
 
-                #correccion
                 if self.dlg.rb_normal.isChecked():
                     CNt = CN
                 else:
@@ -590,20 +531,15 @@ class ModelUH:
                     elif self.dlg.rb_wet.isChecked():
                         CNt = (23 * CN) / (10 + (0.13 * CN))
 
-                #time of concentration
                 desnivel = subbasin_values.iloc[0][colcmax] - subbasin_values.iloc[0][colcmin]
                 pendiente = desnivel/(1000*subbasin_values.iloc[0][collen])
-                #tc2 = 0.06628 * subbasin_values.iloc[0][collen]**0.77 / pendiente**0.385 
                 tc2 = 0.3 * (subbasin_values.iloc[0][collen] / pendiente**0.25)**0.76
                 
                 area = subbasin_values.iloc[0][colsup]
 
-                #MODELO###########
 
-                #CN loss--------------------------------------
                 PERDIDASopt = funncMod(p=p, nc=CNt)
 
-                # Figure
                 plt.figure(figsize=(10, 6))
                 ax = PERDIDASopt[["Ia","F","Pe"]].plot(kind='bar', stacked=True, color=['red', 'green', 'blue'])
 
@@ -628,7 +564,6 @@ class ModelUH:
                 plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
                 plt.close()
 
-                #HU conversion precipitation----------------------
                 hu = funHUmod(area, tc2, duracion)
                 huProp = [h/sum(hu) for h in hu]
                 Pe = np.array(PERDIDASopt["Pe"])
@@ -642,7 +577,6 @@ class ModelUH:
                 else:
                     totalUH = huConv
                             
-                #graph
                 plt.figure(figsize=(10, 6))
                 plt.plot(iddate,totalUH,color='blue',label='Simulated outflow',linestyle='-')
                 plt.title(f"Result hidrogram. Basin: {subbasin_id}")
@@ -653,11 +587,9 @@ class ModelUH:
                 temp_dir = workdir
                 imagen_path = os.path.join(temp_dir, f"{subbasin_id}_hidrogram.png")
 
-                #plt.show()
                 plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
                 plt.close()
 
-                #results for integration
                 resultados[subbasin_id] = totalUH
 
                 resultsfull[f"{subbasin_id}_P"] = np.array(PERDIDASopt["P"])
@@ -665,20 +597,16 @@ class ModelUH:
                 resultsfull[f"{subbasin_id}_F"] = np.array(PERDIDASopt["F"])
                 resultsfull[f"{subbasin_id}_Pe"] = np.array(PERDIDASopt["Pe"])
                 resultsfull[f"{subbasin_id}_Qsim"] = totalUH
-
-                #print(resultsfull)
                 
                 sums['PeakSim'] = max(totalUH)
                 sums2 = pd.DataFrame(data=sums)
                 sums2.columns = [subbasin_id]
                 resultsres = pd.concat([resultsres, sums2], axis=1)
 
-            #export resum
             resultsfull2 = pd.DataFrame(resultsfull)
             csv_path = os.path.join(temp_dir, 'RESULTS_details.csv')
             resultsfull2.to_csv(csv_path)
 
-            #if exits observed q in final subbasin
             if (archivoqobs is not None):
                 resultsres.at['PeakObs', subbasin_last] = max(qobs)
                 
@@ -688,8 +616,6 @@ class ModelUH:
                 resultsres.at['pbias', subbasin_last] = funpbias(np.array(qsim),np.array(qobs))
                 resultsres.at['nse', subbasin_last] = funnse(np.array(qsim),np.array(qobs))
 
-                #además creará la figura final para la última cuenca
-                #graph
                 plt.plot(iddate,qsim,color='blue',label='Simulated outflow',linestyle='-')
                 plt.plot(iddate,qobs,color='black', label='Observed outflow', linestyle='-',marker='o',markersize=3,alpha=0.7)
                 plt.title(f"Result hidrogram. Basin: {subbasin_last}")
@@ -700,7 +626,6 @@ class ModelUH:
                 
                 temp_dir = workdir
                 imagen_path = os.path.join(temp_dir, f"{subbasin_last}_hidrogram.png")
-                #plt.show()
                 plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
                 plt.close()
             
@@ -712,10 +637,6 @@ class ModelUH:
             ####OPTIMIZACION
 
 
-
-
-            #RESULTS##################################################
-            #tables
             self.llenar_tabla(resultsres2.round(decimals=4),self.dlg.table_results,"Basin")
             self.llenar_tabla(resultsfull2.round(decimals=4),self.dlg.table_results_2,"id")
             
@@ -723,7 +644,6 @@ class ModelUH:
 
             self.load_image(imagen_path, self.dlg.figView)
             
-            #access to results
             self.dlg.tabWidget.setCurrentIndex(1)
 
 
@@ -736,39 +656,23 @@ class ModelUH:
                 
                 
                 
-                
-
-            #RECUERDA PONER AQUI EL FINAL RESUMEN COMO EL GRAFICO FINAL DE HIDRO INCLUYENDO OBS
-
-
-
-
-
-
-    #PACOGOM ok para el cancel
     def cancel(self):
         self.dlg.destroy()
 
-
-
-    #OK Y AQUI COLOCO EL RESTO DE LA EJECUCION
     def run(self):
         """Run method that performs all the real work"""
 
         # Create the dialog with elements (after translation) and keep reference
         # Only create GUI ONCE in callback, so that it will only load when the plugin is started
         if self.first_start == True:
-            #self.first_start = False #PACOGOM lo comentan
             self.dlg = ModelUHDialog()
         
-        #PACOGOM TODO ESTO ES CODIGO TMABIEN
         self.dlg.cb_invector.setFilters(QgsMapLayerProxyModel.PolygonLayer)
         vlayer = self.dlg.cb_invector.currentLayer()
-        #print (vlayer)
-        #
+
         self.dlg.cb_lp.setLayer(vlayer)
         self.dlg.cb_area.setLayer(vlayer)
-        self.dlg.cb_ID.setLayer(vlayer)#ID DE LAS SUBCUENCAS
+        self.dlg.cb_ID.setLayer(vlayer)
         self.dlg.cb_max_height.setLayer(vlayer)
         self.dlg.cb_min_height.setLayer(vlayer)
         self.dlg.cb_cn.setLayer(vlayer)
@@ -781,15 +685,11 @@ class ModelUH:
         self.dlg.cb_min_height.fieldChanged.connect(self.check_box_able)
         self.dlg.cb_cn.fieldChanged.connect(self.check_box_able)
         
-        #PACOGOM y ver para con
         self.dlg.input_P.setFilter(self.tr("CSV files (*.csv *.CSV)"))
         self.dlg.input_Q.setFilter(self.tr("CSV files (*.csv *.CSV)"))
 
-        # show the dialog
         self.dlg.show()
         
-
-        #PACOGOM Y LLAMADA A process o cancel
         self.dlg.pushButtoncancel.clicked.connect(self.cancel)
         self.dlg.pushButtonok.clicked.connect(self.process)
         
