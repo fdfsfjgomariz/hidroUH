@@ -52,7 +52,7 @@ python3 -m pip install numpy pandas matplotlib scipy
 
 ## 2. Example of use
 
-To follow this tutorial, download the available sample dataset [DataBasinParriel.zip](https://raw.githubusercontent.com/fdfsfjgomariz/hidroUH/test_datasets/DataBasinParriel.zip), which correspond to the Rambla de Parriel in the Region of Murcia, south-eastern Spain. The basin scheme is based on three sub-basins and their channels. The translation of the hydrograph from the two headwater sub-basins to the catchment area C3, which is the catchment area associated with the basin outlet, will be estimated.
+To follow this tutorial, download the available sample dataset [DataBasinParriel.zip](https://github.com/fdfsfjgomariz/hidroUH/raw/main/test_datasets/DataBasinParriel.zip), which correspond to the Rambla de Parriel in the Region of Murcia, south-eastern Spain. The basin scheme is based on three sub-basins and their channels. The translation of the hydrograph from the two headwater sub-basins to the catchment area C3, which is the catchment area associated with the basin outlet, will be estimated.
 
 This file contains data for aggregated basin:
 
