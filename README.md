@@ -11,7 +11,7 @@ To report failures or make suggestions, please contact [fjgomariz@um.es](mailto:
 
 <img src="img/logoINUAMA.png" width="400px" height="auto">
 
-- **Authors**: [Francisco Gomariz-Castillo](https://github.com/fdfsfjgomariz/), [Francisco Alonso-Sarría](https://github.com/pacoalonso/), Gabriel Molina-Pérez and [Carmen Valdivieso-Ros](https://github.com/mcarmenvaldivieso)
+- **Authors**: [Francisco Gomariz-Castillo](https://github.com/fdfsfjgomariz/), [Francisco Alonso-Sarría](https://github.com/pacoalonso/), [Gabriel Molina-Pérez](https://github.com/molina-gmp/) and [Carmen Valdivieso-Ros](https://github.com/mcarmenvaldivieso)
 - **Version**: 0.1
 - **Date**:  May 30 2025
 
