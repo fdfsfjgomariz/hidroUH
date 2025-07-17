@@ -54,10 +54,15 @@ python3 -m pip install numpy pandas matplotlib scipy
 
 To follow this tutorial, download the available sample dataset [DataBasinParriel.zip](https://github.com/fdfsfjgomariz/hidroUH/test_datasets/DataBasinParriel.zip), which correspond to the Rambla de Parriel in the Region of Murcia, south-eastern Spain. The basin scheme is based on three sub-basins and their channels. The translation of the hydrograph from the two headwater sub-basins to the catchment area C3, which is the catchment area associated with the basin outlet, will be estimated.
 
-This file contains:
+This file contains data for aggregated basin:
 
-- A shapefile polygon layer of the Rambla de Parriel basin (SE Spain): ***basin.shp***
-- Two files with hourly precipitation and runoff data observed in the Rambla outlet in CSV format: ***precip.csv*** and ***ObservedFlow.csv***
+- A shapefile polygon layer of the Rambla de Parriel watershed (SE Spain): ***basin.shp***
+- Two files with hourly precipitation and runoff data observed in the Rambla outlet in CSV format: ***AGprecip.csv*** and ***AGObservedFlow.csv***
+
+This file contains data for a sub-basin model implementation:
+
+- A shapefile polygon layer of 3 sub-basins in the Rambla de Parriel watershed (SE Spain): ***subbasin.shp***
+- Two files with hourly precipitation for 3 sub-basins and runoff data observed in the Rambla outlet in CSV format: ***DISTprecip.csv and DISTObservedFlow.csv***
 
 There are three tabs on the plugin dialog: 
 
@@ -75,24 +80,30 @@ To start the process, enter the input data using the first tab as in Fig. 1. Ple
 
 - **Time interval** (<span style=" color:#ff0000;">required</span>): Time interval in minutes for which the simulation will be generated. It must coincide with the time step of the input files. Its operating range goes from 5 minutes to 720 minutes. By default, the time step is set to 60 min.
 
-- **Precipitation (mm/h)** (<span style=" color:#ff0000;">required</span>): Use the file selector widget to import the CSV file with the precipitation data. This file must contain a first column storing the date and time, and as many columns as sub-basins to be included in the model, named with the same identifier of basin or sub-basins in the *Subbasins* layer attibute table. The columns of this csv file must be separated by comma (",") and use the point (".") as the decimal symbol, and store the values from the hyetographs associated with each sub-basin at (or below) the time step of interest (previously obtained by the user from the closest weather station, or from an average series from several rain gauges or gridded data). 
+- **Precipitation (mm/h)** (<span style=" color:#ff0000;">required</span>): Use the file selector widget to import the CSV file with the precipitation data. This file must contain a first column with a sequential unique identifier for each observation, the second and third columns with date and time data, and as many columns as sub-basins to be included in the model, named with the same identifier of basin or sub-basins in the *Subbasins* layer attibute table. The columns of this csv file must be separated by comma (",") and use the point (".") as the decimal symbol, and store the values from the hyetographs associated with each sub-basin at (or below) the time step of interest (previously obtained by the user from the closest weather station, or from an average series from several rain gauges or gridded data). 
 
-- **Flow (m<sup>3</sup>/s by hour)** (optional): Use the file selector widget to import the CSV file (with the same specifications as the precipitation file) storing the flow observed at the mouth of the basin to estimate the goodness of fit between the simulation and the observed flow and calibrate, if the **Optimize?** check box is selected.
+- **Flow (m<sup>3</sup>/s by hour)** (optional): Use the file selector widget to import the CSV file (with the same specifications as the precipitation file) storing the flow observed at the mouth of the basin to estimate the goodness of fit between the simulation and the observed flow and calibrate, if the **Optimize?** check box is selected. The columns included are the same as in the precipitation file but the single flow column will be named according to the name of the basin to which it is associated.
 
-- **Parameters** box:
+- **Parameters** box. Most of them correspond to columns needed in the spatial layer of hydrological basins:
 
-	- **Subbasins ID** (<span style=" color:#ff0000;">required</span>): Use the drop-down menu to select the column in the attribute table with the identifier of each sub-basin (It could be either numeric or character).
-	- **Subbasins area (km<sup>2</sup>)** (<span style=" color:#ff0000;">required</span>): Use the drop-down menu to select the column in the attribute table containing the area of the sub-basin  ($km^2$).
+	- **Subbasins ID** (<span style=" color:#ff0000;">required</span>): Use the drop-down menu to select the column in the attribute table with the identifier of each sub-basin (it could be either numeric or character).
+	- **Subbasins area (km<sup>2</sup>)** (<span style=" color:#ff0000;">required</span>): Use the drop-down menu to select the column in the attribute table containing the area of the sub-basin ($km^2$).
 	- **Subbasins length flowpath (km)** (<span style=" color:#ff0000;">required</span>): Use the drop-down menu to select the column in the attribute table containing the length (km) of the maximum flow line (or the main channel) of the sub-basin.
 	- **Min. height in lenth flowpath (m)** (<span style=" color:#ff0000;">required</span>) and **Max. height in length flowpath (m)** (required): Use the drop-down menus to select the column in the attribute table containing the maximum and minimum altitudes, expressed in metres, of the line of maximum flow (or, in its absence, of the main channel) of the sub-basin (i.e. the elevations of the beginning and end of this line).
 	- **Curve Number (CN)** (<span style=" color:#ff0000;">required</span>): Use the drop-down menu to select the column in the attribute table containing the average curve number of the sub-basin.
 	- **Antecedent wet** radio buttons (<span style=" color:#ff0000;">required</span>): Option to adjust the curve number according to background soil moisture conditions. By defalult, it is set to *Normal*, usually corresponding to the curve number values in the existing spatial layers and the tabulated values.
 
-	- **Include channel routing** ckeck button (optional): If there is more than one sub-basin, this option indicates to the plugin whether the translation in the riverbed should be computed. It should be noted that the translation will take place in subsequent sub-basins downstream of the headwater sub-basins. The final flow at the outlets is the sum of the flow generated in the sub-basin through which it transits, plus the flow arriving after transiting through the considered riverbed. The parameters to be included in this case are:
+	- **Include channel routing** ckeck button (optional): If there is more than one sub-basin, this option indicates to the plugin whether the translation in the riverbed should be computed. It should be noted that the translation will take place in subsequent sub-basins downstream of the headwater sub-basins. The final flow at the outlets is the sum of the flow generated in the sub-basin through which it transits, plus the flow arriving after transiting through the considered riverbed. The values included in the columns will depend on whether or not routing is considered in the sub-basin: in an aggregated model scheme it is not considered (the value included will be null), while if the scheme is composed of sub-basins, in those for which routing is not considered (headwater sub-basins) the cell will be left blank, including values for the sub-basins in which routing occurs. The parameters to be included in this case are:
 		- **Channel length (km)**: Use the drop-down menu to select the column in the attribute table containing the length, expressed in km, of the channel associated with the sub-basin through which the hydrograph entering upstream of the sub-basin will flow.
 		- **Min. height in channel (m)** and **Max. height in channel (m)**: Use the drop-down menus to select the columns in the attribute table containing the maximum and minimum altitude, expressed in metres, associated with the watercourse, these altitudes are considered to correspond to the end and the beginning of the watercourse.
 
-	- **Output folder** (<span style=" color:#ff0000;">required</span>): Use the selector widget to select the output directory to save the detailed information generated by the model (see next section). 
+	- **Output folder** (<span style=" color:#ff0000;">required</span>): Use the selector widget to select the output directory to save the detailed information generated by the model (see next section).
+
+
+In addition to the parameters defined above in the polygon layer as columns, a last column must be included to define the conceptual scheme (network) of the basin. This column (in the two example layers it is called ***Downstream***) defines the connections between each sub-basin with respect to the downstream sub-basin. To understand the process, an example of a connection to represent the Parriel basin is shown in figure (this represent scheme for figure in section 3). Two headwater sub-basins (C1 and C2) are defined that connect downstream with sub-basin C3. Therefore, the resulting hydrograph in C3 will not be the one generated in it, but its sum plus the inflow hydrographs of C1 and C2, which will also pass through a channel until reaching the outlet of C3.
+
+<div align="center"><img src="img/NETWORK.png" width="700px" height="auto"></div>
+
 
 ### 2.2. Results tab
 
@@ -104,7 +115,9 @@ It provides with:
 
 - A tabular summary of form of the overall simulation results, including the total accumulated precipitation (*P*), the initial (*Ia*) and accumulated infiltration (*F*), the effective precipitation (*Pe*), and the peak flow of the simulated event at the mouth of the basin (*PeakSim*) for the whole event and the studied basin. If an observed flow file has been included, the summary will also include the peak observed flow (*PeakObs*) and the goodness-of-fit statistics *nse*, *rmse* and *pbias* (defined in [section 3.4.](#3.4.-Model-performance-and-calibration)). 
 
-- A graph of the associated flow hydrograph. If an observed flow file has been included, both the simulated (blue line) and the observed (black line) flow hydrographs will be dispayed. 
+- A graph of the associated flow hydrograph (output associated to basin in aggregated model or the output associated with the last sub-basin). If an observed flow file has been included, both the simulated (blue line) and the observed (black line) flow hydrographs will be dispayed.
+
+<div align="center"><img src="img/form2.png" width="700px" height="auto"></div>
 
 ### 2.2.2. *Output folder*
 
@@ -159,7 +172,7 @@ $$
 NC can be obtained from the SCS (1985) tables. To do so, it is necessary to have texture values, which allow the hydrological soil groups to be obtained, as well as land use cover and slope information. Alternatively, there are different approximations based on land use coverage or spatially distributed approximations. For example, in the case of Spain, [**Norma 5.2-IC de Drenaje Superficial de la Instrucción de Carreteras (2016)**](https://cdn.mitma.gob.es/portal-web-drupal/carreteras/52ic_fom2982016_err_fom1852017_res180326_consolidado.pdf) tabulates different *CN*  values for Corine land cover classes. [**Ministerio para la Transición Ecológica y el Reto Demográfico**](https://www.miteco.gob.es/es/agua/temas/gestion-de-los-riesgos-de-inundacion/snczi/mapa-de-caudales-maximos.html) has approximated for the whole of Spain values of *P0* from which *CN* values can be derived.
 
 
-The *CN*  values approximated from the tables are for either unknown antecedent moisture conditions or intermediate moisture values. If the antecedent moisture conditions are known, the *CN* must be corrected using the following equations: the first if the conditions were dry (**METE REFERENCIA**), and the second if the conditions were wet (**METE REFERENCIA**).
+The *CN*  values approximated from the tables are for either unknown antecedent moisture conditions or intermediate moisture values. If the antecedent moisture conditions are known, the *CN* must be corrected using the following equations: the first if the conditions were dry and the second if the conditions were wet (Chow et al., 1994).
 
 $$
 NC=\frac{4.2 \cdot NCt}{10 - 0.058 \cdot NC_t}
@@ -276,7 +289,9 @@ In this first experimental version of the plugin, the efficiency index *nse* is 
 
 ## References
 
-- Chow, V. T. (1994). *Hidráulica de canales abiertos* (Traducción). Santafé de Bogotá, Colombia: McGraw-Hill Interamericana S.A.
+- Chow, V. T. (1992). *Hidráulica de canales abiertos* (Traducción). Santafé de Bogotá, Colombia: McGraw-Hill Interamericana S.A.
+
+- Chow, V.T., Maidment, D.R. & Mays, L.W. (1994). *Hidrología Aplicada* (Traducción). Santafé de Bogotá, Colombia: McGraw-Hill Interamericana S.A.
 
 - Moriasi, D. N., Gitau, M. W., Pai, N., & Daggupati, P. (2015). Hydrologic and water quality models: Performance measures and evaluation criteria. *Transactions of the ASABE*, 58(6), 1763–1785. https://doi.org/10.13031/trans.58.10715
 
