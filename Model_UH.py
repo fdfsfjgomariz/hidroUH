@@ -484,21 +484,19 @@ class ModelUH:
 
             archivoprec = self.dlg.input_P.filePath()
             codidp = 0
- 
-            archivoqobs = self.dlg.input_Q.filePath()
-            colqobs = 3
       
             precip = pd.read_csv(archivoprec)
             iddate = precip.iloc[:,codidp]
 
             if self.dlg.input_Q.filePath() != '':
+                archivoqobs = self.dlg.input_Q.filePath()
+                colqobs = 3           
                 qobserved = pd.read_csv(archivoqobs)
                 qobs = qobserved.iloc[:,colqobs].values
                 iddate, qobs
             else:
-                iddate
-
-            
+                archivoqobs = ''
+                        
             layer = self.dlg.cb_invector.currentLayer()
             colCN = self.dlg.cb_cn.currentField()
             colsup = self.dlg.cb_area.currentField()
@@ -642,9 +640,9 @@ class ModelUH:
             csv_path = os.path.join(temp_dir, 'RESULTS_details.csv')
             resultsfull2.to_csv(csv_path)
 
-            if (archivoqobs is not None):
+            if (archivoqobs != ''):
+            
                 resultsres.at['PeakObs', subbasin_last] = max(qobs)
-                
                 qsim = resultsfull2[f"{subbasin_last}_Qsim"]
 
                 resultsres.at['rmse', subbasin_last] = funrmse(np.array(qsim),np.array(qobs))
