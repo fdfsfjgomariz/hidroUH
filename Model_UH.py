@@ -205,13 +205,21 @@ class ModelUH:
 
     def select_layer_fields(self, vlayer):
         self.dlg.cb_ID.setLayer(vlayer)
-        self.dlg.cb_cn.setLayer(vlayer)
         self.dlg.cb_area.setLayer(vlayer)
         self.dlg.cb_lp.setLayer(vlayer)
         self.dlg.cb_max_height.setLayer(vlayer)
         self.dlg.cb_min_height.setLayer(vlayer)
-
-        field = self.dlg.cb_lp.setLayer(vlayer)
+        self.dlg.cb_cn.setLayer(vlayer)
+        #filters:
+        self.dlg.cb_area.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_lp.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_cn.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_max_height.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_min_height.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_lc.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_minl.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_maxl.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_X.setFilters(QgsFieldProxyModel.Numeric)
         
     def check_box_able(self):
  
@@ -228,9 +236,7 @@ class ModelUH:
  
     def sql_funtion(self):
         vlayer = self.dlg.cb_invector.currentLayer()
-        field = self.dlg.cb_lp.currentText()
-        
-    
+
     def llenar_tabla(self, dataframe,table,colid):
 
         tabla = table
@@ -552,6 +558,8 @@ class ModelUH:
                         CNt = (4.2 * CN) / (10 - (0.058 * CN))
                     elif self.dlg.rb_wet.isChecked():
                         CNt = (23 * CN) / (10 + (0.13 * CN))
+                        
+                        
 
                 desnivel = subbasin_values.iloc[0][colcmax] - subbasin_values.iloc[0][colcmin]
                 pendiente = desnivel/(1000*subbasin_values.iloc[0][collen])
@@ -718,6 +726,20 @@ class ModelUH:
         self.dlg.cb_max_height.setLayer(vlayer)
         self.dlg.cb_min_height.setLayer(vlayer)
         self.dlg.cb_cn.setLayer(vlayer)
+        self.dlg.cb_lc.setLayer(vlayer)
+        self.dlg.cb_minl.setLayer(vlayer)
+        self.dlg.cb_maxl.setLayer(vlayer)
+        self.dlg.cb_X.setLayer(vlayer)
+        #filters
+        self.dlg.cb_area.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_lp.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_cn.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_max_height.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_min_height.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_lc.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_minl.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_maxl.setFilters(QgsFieldProxyModel.Numeric)
+        self.dlg.cb_X.setFilters(QgsFieldProxyModel.Numeric)
         #
         self.dlg.cb_invector.layerChanged.connect(self.select_layer_fields)
         self.dlg.cb_lp.fieldChanged.connect(self.check_box_able)
@@ -726,6 +748,12 @@ class ModelUH:
         self.dlg.cb_max_height.fieldChanged.connect(self.check_box_able)
         self.dlg.cb_min_height.fieldChanged.connect(self.check_box_able)
         self.dlg.cb_cn.fieldChanged.connect(self.check_box_able)
+        self.dlg.cb_lc.fieldChanged.connect(self.check_box_able)
+        self.dlg.cb_minl.fieldChanged.connect(self.check_box_able)
+        self.dlg.cb_maxl.fieldChanged.connect(self.check_box_able)
+        self.dlg.cb_X.fieldChanged.connect(self.check_box_able)
+        
+        
         #
         self.dlg.input_P.setFilter(self.tr("CSV files (*.csv *.CSV)"))
         self.dlg.input_Q.setFilter(self.tr("CSV files (*.csv *.CSV)"))
