@@ -41,6 +41,8 @@ import matplotlib.pyplot as plt
 import geopandas as gpd
 import networkx as nx
 
+from scipy.optimize import minimize
+
 import base64
 
 from qgis.PyQt.QtWidgets import QTableWidgetItem
@@ -222,9 +224,7 @@ class ModelUH:
         self.dlg.cb_X.setFilters(QgsFieldProxyModel.Numeric)
         
     def check_box_able(self):
- 
         colCN = self.dlg.cb_cn.currentField()
-        
         if colCN == "":
             self.dlg.rb_dry.setEnabled(False)
             self.dlg.rb_normal.setEnabled(False)
@@ -233,6 +233,17 @@ class ModelUH:
             self.dlg.rb_dry.setEnabled(True)
             self.dlg.rb_normal.setEnabled(True)
             self.dlg.rb_wet.setEnabled(True)
+            
+    def check_box_able_f0(self):
+        if self.dlg.ch_optimize.isChecked():
+            self.dlg.rb_nse.setEnabled(True)
+            self.dlg.rb_rmse.setEnabled(True)
+            self.dlg.rb_peakw.setEnabled(True)
+        else:
+            self.dlg.rb_nse.setEnabled(False)
+            self.dlg.rb_rmse.setEnabled(False)
+            self.dlg.rb_peakw.setEnabled(False)
+            
  
     def sql_funtion(self):
         vlayer = self.dlg.cb_invector.currentLayer()
@@ -413,20 +424,127 @@ class ModelUH:
                 O[t] = C0 * I[t] + C1 * I[t-1] + C2 * O[t-1]
             
             return O
+
+        def funCompleteModel(colidbasin,colCN,colsup,colTC,colrlen,colrcmin,colrcmax,colX,precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir,figCN):    
+
+            resultsag = {}
+            resultsres = pd.DataFrame()
+            resultsfull = {}
+
+            for subbasin_id in subbasins_order:
+                tributaries = list(G.predecessors(subbasin_id))
+                inlets = [resultsag[tributary] for tributary in tributaries]
+                inlets2 = [sum(x) for x in zip(*inlets)]
+                p = precip.loc[:,subbasin_id].values
+                subbasin_values = subbasins[subbasins[colidbasin] == subbasin_id]
+                CN = subbasin_values.iloc[0][colCN]
+                
+                if rb_dry_wet == 0:
+                    CNt = CN
+                else:
+                    if rb_dry_wet == 1:
+                        CNt = (4.2 * CN) / (10 - (0.058 * CN))
+                    elif rb_dry_wet == 2:
+                        CNt = (23 * CN) / (10 + (0.13 * CN))
+                tc2 = subbasin_values.iloc[0][colTC]
+                area = subbasin_values.iloc[0][colsup]
+
+                #CN loss--------------------------------------
+                LOSSopt = funncMod(p=p, nc=CNt)
+                sums = LOSSopt[["P","Ia","F","Pe"]].sum()
+                
+                if figCN == 1:
+                    plt.figure(figsize=(10, 6))
+                    ax = LOSSopt[["Ia","F","Pe"]].plot(kind='bar', stacked=True, color=['red', 'green', 'blue'])
+                    plt.title(f"Results of CN loss. Basin: {subbasin_id}; NC: {CNt}")
+                    plt.xlabel('Time')
+                    ax.set_xticks(range(0, len(LOSSopt), 5))
+                    ax.set_xticklabels(LOSSopt.index[::5], rotation=45, ha='right')
+                    plt.ylabel('Precip. depth (mm)')
+                    #
+                    plt.table(cellText=[sums.values.round(2)],colLabels=sums.index,cellLoc='center',loc='bottom',bbox=[0.18, -0.4, 0.6, 0.2])
+
+                    imagen_path = os.path.join(workdir, f"{subbasin_id}_cnloss.png")
+                    plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
+                    plt.close()
+
+                #HU prec. to hid----------------------
+                hu = funHUmod(area, tc2, duracion)
+                huProp = [h/sum(hu) for h in hu]
+                Pe = np.array(LOSSopt["Pe"])
+                huConv = funHUconv(Pe, huProp, area, duracion)
+
+                if(len(huConv) > len(Pe)):
+                    huConv = huConv[0:len(Pe)]
+
+                if(len(np.array(inlets2)) > 0):
+                    if(routing == 1):
+                        X = subbasin_values.iloc[0][colX]
+                        diffR = subbasin_values.iloc[0][colrcmax] - subbasin_values.iloc[0][colrcmin]
+                        slopeR = diffR/(1000*subbasin_values.iloc[0][colrlen])
+                        tcR = 0.3 * (subbasin_values.iloc[0][colrlen] / slopeR**0.25)**0.76
+                        K = 0.6 * tcR
+                        outputMusk = funmuskingummod(np.array(inlets2), duracion ,K ,X)
+                        totalUH = np.array(huConv) + np.array(outputMusk)
+                    else:
+                        totalUH = np.array(huConv) + np.array(inlets2)
+                else:
+                    totalUH = huConv
+
+                if figCN == 1:
+                    plt.figure(figsize=(10, 6))
+                    plt.plot(iddate,totalUH,color='blue',label='Simulated outflow',linestyle='-')
+                    plt.title(f"Result hidrogram. Basin: {subbasin_id}")
+                    plt.xlabel('Time')
+                    plt.ylabel('Flow (m3/s)')
+                    plt.grid(True, linestyle='--', alpha=0.6)
+                    plt.legend()
+                    imagen_path = os.path.join(workdir, f"{subbasin_id}_hidrogram.png")
+                    plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
+                    plt.close()
+
+                resultsag[subbasin_id] = totalUH
+                resultsfull[f"{subbasin_id}_P"] = np.array(LOSSopt["P"])
+                resultsfull[f"{subbasin_id}_Ia"] = np.array(LOSSopt["Ia"])
+                resultsfull[f"{subbasin_id}_F"] = np.array(LOSSopt["F"])
+                resultsfull[f"{subbasin_id}_Pe"] = np.array(LOSSopt["Pe"])
+                resultsfull[f"{subbasin_id}_Qsim"] = totalUH
+                sums['PeakSim'] = max(totalUH)
+                sums2 = pd.DataFrame(data=sums)
+                sums2.columns = [subbasin_id]
+                resultsres = pd.concat([resultsres, sums2], axis=1)
+
+            resultsfull2 = pd.DataFrame(resultsfull)
+            return resultsfull2, resultsres
             
-        def funModel(p, area, duracion, nc, tc):
+            
+            def update_layer_with_dataframe(layer, df, id_layer, id_df, field_mapping=None):
+            
+                #add results to layer:
+                layer.startEditing()
+                if layer.dataProvider().fieldNameIndex("tc") == -1:
+                    layer.dataProvider().addAttributes([QgsField("tc", QVariant.Double)])
+                if layer.dataProvider().fieldNameIndex("P") == -1:
+                    layer.dataProvider().addAttributes([QgsField("P", QVariant.Double)])
+                if layer.dataProvider().fieldNameIndex("Pe") == -1:
+                    layer.dataProvider().addAttributes([QgsField("Pe", QVariant.Double)])
+                if layer.dataProvider().fieldNameIndex("Ia") == -1:
+                    layer.dataProvider().addAttributes([QgsField("Ia", QVariant.Double)])
+                if layer.dataProvider().fieldNameIndex("F") == -1:
+                    layer.dataProvider().addAttributes([QgsField("F", QVariant.Double)])
+                if layer.dataProvider().fieldNameIndex("PeakSim") == -1:
+                    layer.dataProvider().addAttributes([QgsField("PeakSim", QVariant.Double)])
+                if (archivoqobs != ''):
+                    if layer.dataProvider().fieldNameIndex("PeakObs") == -1:
+                        layer.dataProvider().addAttributes([QgsField("PeakObs", QVariant.Double)])
+                    if layer.dataProvider().fieldNameIndex("rmse") == -1:
+                        layer.dataProvider().addAttributes([QgsField("rmse", QVariant.Double)])
+                    if layer.dataProvider().fieldNameIndex("pbias") == -1:
+                        layer.dataProvider().addAttributes([QgsField("pbias", QVariant.Double)])
+                    if layer.dataProvider().fieldNameIndex("nse") == -1:
+                        layer.dataProvider().addAttributes([QgsField("nse", QVariant.Double)])
 
-            PERDIDAS = funncMod(p, nc)
-   
-            hu = funHUmod(area, tc, duracion)
-            huProp = [h/sum(hu) for h in hu]
-            Pe = np.array(PERDIDAS["Pe"])
-            huConv = funHUconv(Pe, huProp, area, duracion)
-
-            if(len(huConv) > len(Pe)):
-                 huConv = huConv[0:len(Pe)]
-        
-            return huConv   
+                layer.updateFields()
             
         def funnse(predictions, targets):
             return 1 - (np.sum((targets - predictions) ** 2) / np.sum((targets - np.mean(targets)) ** 2))
@@ -436,21 +554,59 @@ class ModelUH:
     
         def funpbias(predictions, targets):
             return (np.sum(targets - predictions) / np.sum(predictions)) * 100
-
-        def objectiveRMSE(params, p, area, duracion, qobs):
-            #K, x = params
-            nc, tc = params
-            qsim = funModel(p, area, duracion, nc, tc)
-            f0 = funrmse(np.array(qsim),np.array(qobs))
-            return f0
-
-        def objectiveNSE(params, p, area, duracion, qobs):
-            #K, x = params
-            nc, tc = params
-            qsim = funModel(p, area, duracion, nc, tc)
+            
+        def objectiveNSE(params, qobs, colidbasin,colsup,colrlen,colrcmin,colrcmax,precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir):
+            longi = len(subbasins)
+            params2 = initial_flat
+            CN2, tc2, X2 = [params[i:i + longi] for i in range(0, len(params), longi)]
+            subbasins["CNopt"] = CN2
+            subbasins["tcopt"] = tc2
+            subbasins["Xopt"] = X2
+            #model
+            resultsfullOPT, resultsresOPT =  funCompleteModel(colidbasin,"CNopt",colsup,"tcopt",colrlen,colrcmin,colrcmax,"Xopt",precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir,0)
+            qsim = resultsfullOPT[f"{subbasin_last}_Qsim"]
             f0 = funnse(np.array(qsim),np.array(qobs))
             return - f0
+        #
+        def objectiveRMSE(params, qobs, colidbasin,colsup,colrlen,colrcmin,colrcmax,precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir):
+            longi = len(subbasins)
+            params2 = initial_flat
+            CN2, tc2, X2 = [params[i:i + longi] for i in range(0, len(params), longi)]
+            subbasins["CNopt"] = CN2
+            subbasins["tcopt"] = tc2
+            subbasins["Xopt"] = X2
+            #model
+            resultsfullOPT, resultsresOPT =  funCompleteModel(colidbasin,"CNopt",colsup,"tcopt",colrlen,colrcmin,colrcmax,"Xopt",precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir,0)
+            qsim = resultsfullOPT[f"{subbasin_last}_Qsim"]
+            f0 = funrmse(np.array(qsim),np.array(qobs))
+            return f0
+            
+        def generate_bounds(initial_guess):
+            base_ranges = [
+                (5, 95),    # CN
+                (0.5, 20),   # tc
+                (0.2, 0.3)   # X Muskingum
+            ]
+            bounds = []
+            for i, element in enumerate(initial_guess):
+                min_val, max_val = base_ranges[i]
+                if isinstance(element, (int, float)):
+                    element = [element]
+                group_bounds = [(min_val, max_val) for _ in element]
+                bounds.append(group_bounds)
+            
+            return bounds
 
+        def flatten(structure):
+            flat = []
+            for item in structure:
+                if isinstance(item, (list, tuple)):
+                    flat.extend(item)
+                else:
+                    flat.append(item)
+            return flat
+            
+            
         if self.dlg.output2.filePath() == '':
            QMessageBox.information(self.iface.pluginMenu(), "Output directory", 'There is not output directory')
         elif self.dlg.input_P.filePath() == '':
@@ -530,133 +686,51 @@ class ModelUH:
             nx.draw(G, with_labels=True, node_color='lightblue', node_size=800)
             plt.title("Network")
 
-            temp_dir = workdir
-            imagen_path = os.path.join(temp_dir, 'NETWORK.png')
+            imagen_path = os.path.join(workdir, 'NETWORK.png')
             plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
             plt.close()
-
+            
             resultados = {}
             resultsres = pd.DataFrame()
             resultsfull = {}           
-          
-            for subbasin_id in subbasins_order:
 
-                afluentes = list(G.predecessors(subbasin_id))
-                entradas = [resultados[afluente] for afluente in afluentes]
-                entradas2 = [sum(x) for x in zip(*entradas)]
-
-                p = precip.loc[:,subbasin_id].values
-
-                subbasin_values = subbasins[subbasins[colidbasin] == subbasin_id]
-
-                CN = subbasin_values.iloc[0][colCN]
-
-                if self.dlg.rb_normal.isChecked():
-                    CNt = CN
-                else:
-                    if self.dlg.rb_dry.isChecked():
-                        CNt = (4.2 * CN) / (10 - (0.058 * CN))
-                    elif self.dlg.rb_wet.isChecked():
-                        CNt = (23 * CN) / (10 + (0.13 * CN))
-                        
-                        
-
-                desnivel = subbasin_values.iloc[0][colcmax] - subbasin_values.iloc[0][colcmin]
-                pendiente = desnivel/(1000*subbasin_values.iloc[0][collen])
-                tc2 = 0.3 * (subbasin_values.iloc[0][collen] / pendiente**0.25)**0.76
+            ###EXECUTE MODEL
+            
+            #time of concentration
+            colTC = "tc"
+            slpgrad = subbasins[colcmax] - subbasins[colcmin]
+            slope2 = slpgrad/(1000*subbasins[collen])
+            subbasins[colTC] = 0.3 * (subbasins[collen] / slope2**0.25)**0.76
+            
+            if self.dlg.rb_normal.isChecked():
+                rb_dry_wet = 0
+            else:
+                if self.dlg.rb_dry.isChecked():
+                    rb_dry_wet = 1
+                elif self.dlg.rb_wet.isChecked():
+                    rb_dry_wet = 2
+            
+            if self.dlg.ch_routing.isChecked():
+                routing = 1
+            else:
+                routing = 0
                 
-                area = subbasin_values.iloc[0][colsup]
-
-
-                PERDIDASopt = funncMod(p=p, nc=CNt)
-
-                plt.figure(figsize=(10, 6))
-                ax = PERDIDASopt[["Ia","F","Pe"]].plot(kind='bar', stacked=True, color=['red', 'green', 'blue'])
-
-                plt.title(f"Results of CN loss. Basin: {subbasin_id}; NC: {CNt}")
-                plt.xlabel('Time')
-
-                ax.set_xticks(range(0, len(PERDIDASopt), 5))
-                ax.set_xticklabels(PERDIDASopt.index[::5], rotation=45, ha='right')
-
-                plt.ylabel('Precip. depth (mm)')
-
-                sums = PERDIDASopt[["P","Ia","F","Pe"]].sum()
-                plt.table(cellText=[sums.values.round(2)],
-                            colLabels=sums.index,
-                            cellLoc='center',
-                            loc='bottom',
-                            bbox=[0.18, -0.4, 0.6, 0.2])
-
-                temp_dir = workdir
-                imagen_path = os.path.join(temp_dir, f"{subbasin_id}_cnloss.png")
-
-                plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
-                plt.close()
-
-                hu = funHUmod(area, tc2, duracion)
-                huProp = [h/sum(hu) for h in hu]
-                Pe = np.array(PERDIDASopt["Pe"])
-                huConv = funHUconv(Pe, huProp, area, duracion)
-
-                if(len(huConv) > len(Pe)):
-                    huConv = huConv[0:len(Pe)]
-
-                if(len(np.array(entradas2)) > 0):
-
-                    if self.dlg.ch_routing.isChecked():
-                        X = subbasin_values.iloc[0][colX]
-                        #and K
-                        diffR = subbasin_values.iloc[0][colrcmax] - subbasin_values.iloc[0][colrcmin]
-                        slopeR = diffR/(1000*subbasin_values.iloc[0][colrlen])
-                        tcR = 0.3 * (subbasin_values.iloc[0][colrlen] / slopeR**0.25)**0.76
-                        K = 0.6 * tcR
-                        outputMusk = funmuskingummod(np.array(entradas2), duracion ,K ,X)
-                        totalUH = np.array(huConv) + np.array(outputMusk)
-                    else:
-                        totalUH = np.array(huConv) + np.array(entradas2)
-                else:
-                    totalUH = huConv
-                            
-                plt.figure(figsize=(10, 6))
-                plt.plot(iddate,totalUH,color='blue',label='Simulated outflow',linestyle='-')
-                plt.title(f"Result hidrogram. Basin: {subbasin_id}")
-                plt.xlabel('Time')
-                plt.ylabel('Flow (m3/s)')
-                plt.grid(True, linestyle='--', alpha=0.6)
-                plt.legend()
-                temp_dir = workdir
-                imagen_path = os.path.join(temp_dir, f"{subbasin_id}_hidrogram.png")
-
-                plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
-                plt.close()
-
-                resultados[subbasin_id] = totalUH
-
-                resultsfull[f"{subbasin_id}_P"] = np.array(PERDIDASopt["P"])
-                resultsfull[f"{subbasin_id}_Ia"] = np.array(PERDIDASopt["Ia"])
-                resultsfull[f"{subbasin_id}_F"] = np.array(PERDIDASopt["F"])
-                resultsfull[f"{subbasin_id}_Pe"] = np.array(PERDIDASopt["Pe"])
-                resultsfull[f"{subbasin_id}_Qsim"] = totalUH
-                
-                sums['PeakSim'] = max(totalUH)
-                sums2 = pd.DataFrame(data=sums)
-                sums2.columns = [subbasin_id]
-                resultsres = pd.concat([resultsres, sums2], axis=1)
-
-            resultsfull2 = pd.DataFrame(resultsfull)
-            csv_path = os.path.join(temp_dir, 'RESULTS_details.csv')
-            resultsfull2.to_csv(csv_path)
-
+            figCN = 1
+            
+            #model
+            resultsfull2, resultsres =  funCompleteModel(colidbasin,colCN,colsup,colTC,colrlen,colrcmin,colrcmax,colX,precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir,figCN)
+            
+            #export additional results
+            csv_path = os.path.join(workdir, 'RESULTS_details.csv')
+            resultsfull2.to_csv(csv_path)           
+ 
             if (archivoqobs != ''):
             
                 resultsres.at['PeakObs', subbasin_last] = max(qobs)
                 qsim = resultsfull2[f"{subbasin_last}_Qsim"]
-
                 resultsres.at['rmse', subbasin_last] = funrmse(np.array(qsim),np.array(qobs))
                 resultsres.at['pbias', subbasin_last] = funpbias(np.array(qsim),np.array(qobs))
                 resultsres.at['nse', subbasin_last] = funnse(np.array(qsim),np.array(qobs))
-
                 plt.plot(iddate,qsim,color='blue',label='Simulated outflow',linestyle='-')
                 plt.plot(iddate,qobs,color='black', label='Observed outflow', linestyle='-',marker='o',markersize=3,alpha=0.7)
                 plt.title(f"Result hidrogram. Basin: {subbasin_last}")
@@ -664,48 +738,106 @@ class ModelUH:
                 plt.ylabel('Flow (m3/s)')
                 plt.grid(True, linestyle='--', alpha=0.6)
                 plt.legend()
-                
-                temp_dir = workdir
-                imagen_path = os.path.join(temp_dir, f"{subbasin_last}_hidrogram.png")
+
+                imagen_path = os.path.join(workdir, f"{subbasin_last}_hidrogram.png")
                 plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
                 plt.close()
             
             resultsres2 = pd.DataFrame.transpose(resultsres)
-            csv_path = os.path.join(temp_dir, 'RESULTS_resum.csv')
+            csv_path = os.path.join(workdir, 'RESULTS_resum.csv')
             resultsres2.to_csv(csv_path)
+
+            if self.dlg.ch_optimize.isChecked():
+                
+                functionf0 = "nse"
+                
+                if functionf0 == "nse":
+                    objectivef0 = objectiveNSE
+                elif functionf0 == "rmse":
+                    objectivef0 = objectiveRMSE
+                else:
+                    objectivef0 = objectivePKW
+                
+                cnopt = list(subbasins[colCN])
+                tcopt = list(subbasins[colTC])
+                Xopt = list(subbasins[colX])
+
+                initial_guess = [cnopt, tcopt, Xopt] #CN Y TC
+                bounds = generate_bounds(initial_guess)                
+
+                initial_flat = flatten(initial_guess)
+                bounds_flat = flatten(generate_bounds(initial_guess))            
+
+                result = minimize(
+                    fun=objectivef0,
+                    x0=initial_flat,
+                    args=(qobs, colidbasin,colsup,colrlen,colrcmin,colrcmax,precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir),
+                    method='L-BFGS-B',  # Método que soporta límites
+                    bounds=bounds_flat,
+                    options={'maxiter': 1000, 'disp': True}
+                )
+                
+                #generate results: run final model
+                
+                workdir2 = workdir + "opt"
+                try:
+                  os.stat(workdir2)
+                except:
+                  os.mkdir(workdir2)
+
+                params3 = result["x"]
+                longi = len(subbasins)
+                CN3, tc3, X3 = [params3[i:i + len(subbasins)] for i in range(0, len(params3), len(subbasins))]
+                subbasins["CNopt"] = CN3
+                subbasins["tcopt"] = tc3
+                subbasins["Xopt"] = X3
+
+                #y ahora ejecutamos
+                resultsfullopt, resultsresopt =  funCompleteModel(colidbasin,"CNopt",colsup,"tcopt",colrlen,colrcmin,colrcmax,"Xopt",precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir2,figCN)
+                
+                if (archivoqobs is not None):
+                    resultsresopt.at['OPTPeakObs', subbasin_last] = max(qobs)
+                    
+                    qsim = resultsfullopt[f"{subbasin_last}_Qsim"]
+
+                    resultsresopt.at['OPTrmse', subbasin_last] = funrmse(np.array(qsim),np.array(qobs))
+                    resultsresopt.at['OPTpbias', subbasin_last] = funpbias(np.array(qsim),np.array(qobs))
+                    resultsresopt.at['OPTnse', subbasin_last] = funnse(np.array(qsim),np.array(qobs))
+
+                    #además creará la figura final para la última cuenca
+                    plt.plot(iddate,qsim,color='blue',label='Simulated outflow',linestyle='-')
+                    plt.plot(iddate,qobs,color='black', label='Observed outflow', linestyle='-',marker='o',markersize=3,alpha=0.7)
+                    plt.title(f"Result hidrogram. Basin: {subbasin_last}")
+                    plt.xlabel('Time')
+                    plt.ylabel('Flow (m3/s)')
+                    plt.grid(True, linestyle='--', alpha=0.6)
+                    plt.legend()
+                    imagen_path = os.path.join(workdir2, f"{subbasin_last}_hidrogram.png")
+                    plt.savefig(imagen_path, dpi=150, bbox_inches='tight')
+                    plt.close()
+
+                    csv_path = os.path.join(workdir2, 'RESULTSopt_details.csv')
+                    resultsfullopt.to_csv(csv_path)
+
+                    resultsresopt2 = pd.DataFrame.transpose(resultsresopt)
+                    csv_path = os.path.join(workdir2, 'RESULTSopt_resum.csv')
+                    resultsresopt2.to_csv(csv_path)
+
+                    #and load results (opt or nopopt)
+                    self.llenar_tabla(resultsresopt2.round(decimals=4),self.dlg.table_results,"Basin")
+                    self.llenar_tabla(resultsfullopt.round(decimals=4),self.dlg.table_results_2,"id")
+                    imagen_path = os.path.join(workdir2, f"{subbasin_last}_hidrogram.png")
+                    self.load_image(imagen_path, self.dlg.figView)
+                    self.dlg.tabWidget.setCurrentIndex(1)
+            
+            else:
+                #and load results (opt or nopopt)
+                self.llenar_tabla(resultsres2.round(decimals=4),self.dlg.table_results,"Basin")
+                self.llenar_tabla(resultsfull2.round(decimals=4),self.dlg.table_results_2,"id")
+                imagen_path = os.path.join(workdir, f"{subbasin_last}_hidrogram.png")
+                self.load_image(imagen_path, self.dlg.figView)
+                self.dlg.tabWidget.setCurrentIndex(1)
  
-
-            ####OPTIMIZACION
-            
-            
-            
-            
-            
-            
-            
-            
-            
-
-
-            self.llenar_tabla(resultsres2.round(decimals=4),self.dlg.table_results,"Basin")
-            self.llenar_tabla(resultsfull2.round(decimals=4),self.dlg.table_results_2,"id")
-            
-            imagen_path = os.path.join(workdir, f"{subbasin_last}_hidrogram.png")
-
-            self.load_image(imagen_path, self.dlg.figView)
-            
-            self.dlg.tabWidget.setCurrentIndex(1)
-
-
-
-
-            
-            
-
-            #QMessageBox.information(self.iface.pluginMenu(), "Veamos los valores", f"Valor subbasin_id: {subbasin_id}, ;;;;;;; resultados: {resultsres}, tipo: {type(resultsres)}")
-                
-                
-                
     def cancel(self):
         self.dlg.destroy()
 
@@ -752,8 +884,6 @@ class ModelUH:
         self.dlg.cb_minl.fieldChanged.connect(self.check_box_able)
         self.dlg.cb_maxl.fieldChanged.connect(self.check_box_able)
         self.dlg.cb_X.fieldChanged.connect(self.check_box_able)
-        
-        
         #
         self.dlg.input_P.setFilter(self.tr("CSV files (*.csv *.CSV)"))
         self.dlg.input_Q.setFilter(self.tr("CSV files (*.csv *.CSV)"))
