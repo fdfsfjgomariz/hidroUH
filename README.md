@@ -12,7 +12,7 @@ To report failures or make suggestions, please contact [fjgomariz@um.es](mailto:
 <img src="img/logoINUAMA.png" width="400px" height="auto">
 
 - **Authors**: [Francisco Gomariz-Castillo](https://github.com/fdfsfjgomariz/), [Francisco Alonso-Sarría](https://github.com/pacoalonso/), [Gabriel Molina-Pérez](https://github.com/molina-gmp/) and [Carmen Valdivieso-Ros](https://github.com/mcarmenvaldivieso)
-- **Version**: 0.1
+- **Version**: 0.9
 - **Date**:  May 30 2025
 
 ## 1. Plugin installation and requirements
@@ -292,6 +292,7 @@ In this first experimental version of the plugin, the efficiency index *nse* is 
 - Chow, V. T. (1992). *Hidráulica de canales abiertos* (Traducción). Santafé de Bogotá, Colombia: McGraw-Hill Interamericana S.A.
 
 - Chow, V.T., Maidment, D.R. & Mays, L.W. (1994). *Hidrología Aplicada* (Traducción). Santafé de Bogotá, Colombia: McGraw-Hill Interamericana S.A.
+
 
 - Moriasi, D. N., Gitau, M. W., Pai, N., & Daggupati, P. (2015). Hydrologic and water quality models: Performance measures and evaluation criteria. *Transactions of the ASABE*, 58(6), 1763–1785. https://doi.org/10.13031/trans.58.10715
 
