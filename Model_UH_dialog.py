@@ -59,7 +59,6 @@ class ModelUHDialog(QtWidgets.QDialog, FORM_CLASS):
 
         self.lineEdit_interval.setValidator(QIntValidator())
         
-        #routing:
         self.ch_routing.toggled.connect(self.cb_lc.setEnabled)    
         self.cb_lc.setEnabled(self.ch_routing.isChecked())
         self.cb_lc.setLayer(self.cb_invector.currentLayer())
@@ -83,7 +82,7 @@ class ModelUHDialog(QtWidgets.QDialog, FORM_CLASS):
             if self.input_Q.filePath() == '':
                 QMessageBox.information(
                     self,
-                    "Optimze stage",
+                    "Optimize estage",
                     "To perform the optimization it is mandatory to include a flow file with the same time window as the precipitation"
                 )
                 self.ch_optimize.nextCheckState()

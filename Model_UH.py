@@ -338,7 +338,6 @@ class ModelUH:
             pip.main(['install', 'matplotlib.pyplot'])   
 
         try:
-#            from scipy.optimize import minimize
             import scipy.optimize
         except:
             pip.main(['install','--upgrade' ,'scipy.optimize']) 
@@ -519,8 +518,6 @@ class ModelUH:
             
             
             def update_layer_with_dataframe(layer, df, id_layer, id_df, field_mapping=None):
-            
-                #add results to layer:
                 layer.startEditing()
                 if layer.dataProvider().fieldNameIndex("tc") == -1:
                     layer.dataProvider().addAttributes([QgsField("tc", QVariant.Double)])
@@ -696,7 +693,7 @@ class ModelUH:
 
             ###EXECUTE MODEL
             
-            #time of concentration
+            #estimate tc
             colTC = "tc"
             slpgrad = subbasins[colcmax] - subbasins[colcmin]
             slope2 = slpgrad/(1000*subbasins[collen])
@@ -762,7 +759,7 @@ class ModelUH:
                 tcopt = list(subbasins[colTC])
                 Xopt = list(subbasins[colX])
 
-                initial_guess = [cnopt, tcopt, Xopt] #CN Y TC
+                initial_guess = [cnopt, tcopt, Xopt]
                 bounds = generate_bounds(initial_guess)                
 
                 initial_flat = flatten(initial_guess)
@@ -777,7 +774,7 @@ class ModelUH:
                     options={'maxiter': 1000, 'disp': True}
                 )
                 
-                #generate results: run final model
+                #generate results: run final model for opt
                 
                 workdir2 = workdir + "opt"
                 try:
@@ -792,7 +789,6 @@ class ModelUH:
                 subbasins["tcopt"] = tc3
                 subbasins["Xopt"] = X3
 
-                #y ahora ejecutamos
                 resultsfullopt, resultsresopt =  funCompleteModel(colidbasin,"CNopt",colsup,"tcopt",colrlen,colrcmin,colrcmax,"Xopt",precip,duracion,subbasins,subbasins_order,rb_dry_wet,routing,workdir2,figCN)
                 
                 if (archivoqobs is not None):
@@ -804,7 +800,6 @@ class ModelUH:
                     resultsresopt.at['OPTpbias', subbasin_last] = funpbias(np.array(qsim),np.array(qobs))
                     resultsresopt.at['OPTnse', subbasin_last] = funnse(np.array(qsim),np.array(qobs))
 
-                    #además creará la figura final para la última cuenca
                     plt.plot(iddate,qsim,color='blue',label='Simulated outflow',linestyle='-')
                     plt.plot(iddate,qobs,color='black', label='Observed outflow', linestyle='-',marker='o',markersize=3,alpha=0.7)
                     plt.title(f"Result hidrogram. Basin: {subbasin_last}")
@@ -823,7 +818,6 @@ class ModelUH:
                     csv_path = os.path.join(workdir2, 'RESULTSopt_resum.csv')
                     resultsresopt2.to_csv(csv_path)
 
-                    #and load results (opt or nopopt)
                     self.llenar_tabla(resultsresopt2.round(decimals=4),self.dlg.table_results,"Basin")
                     self.llenar_tabla(resultsfullopt.round(decimals=4),self.dlg.table_results_2,"id")
                     imagen_path = os.path.join(workdir2, f"{subbasin_last}_hidrogram.png")
@@ -831,7 +825,7 @@ class ModelUH:
                     self.dlg.tabWidget.setCurrentIndex(1)
             
             else:
-                #and load results (opt or nopopt)
+
                 self.llenar_tabla(resultsres2.round(decimals=4),self.dlg.table_results,"Basin")
                 self.llenar_tabla(resultsfull2.round(decimals=4),self.dlg.table_results_2,"id")
                 imagen_path = os.path.join(workdir, f"{subbasin_last}_hidrogram.png")
